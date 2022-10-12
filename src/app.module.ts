@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { GlobalModule } from './global.module';
-import { UsersModule } from './user/users.module';
-
+import { ControllersModule } from './infrastructure/controllers/controllers.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [GlobalModule, UsersModule, AuthModule],
+  imports: [ConfigModule.forRoot(), ControllersModule],
 })
 export class AppModule {}
