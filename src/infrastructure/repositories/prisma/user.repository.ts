@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
 import { IUserRepository } from 'src/core/repositories/user.repository.interface';
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
+import { UserConverter } from './converter';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -14,24 +14,12 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    return this.toEntity(prismaUser);
+    return UserConverter.toEntity(prismaUser);
   }
   async createUser(userEntity: UserEntity): Promise<UserEntity> {
     const prismaUser = await this.prisma.user.create({
       data: userEntity,
     });
-    return this.toEntity(prismaUser);
-  }
-
-  toEntity(prismaUser: User): UserEntity {
-    if (prismaUser == null) {
-      return null;
-    }
-    const userEntity = new UserEntity();
-    userEntity.email = prismaUser.email;
-    userEntity.fullname = prismaUser.fullname;
-    userEntity.id = prismaUser.id;
-    userEntity.password = prismaUser.password;
-    return userEntity;
+    return UserConverter.toEntity(prismaUser);
   }
 }

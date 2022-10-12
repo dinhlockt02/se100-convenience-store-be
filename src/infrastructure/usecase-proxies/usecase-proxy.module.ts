@@ -1,10 +1,13 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { ForgotPasswordUsecase } from 'src/usecases/auth/forgot-password.usecase';
 import { LoginUsecase } from 'src/usecases/auth/login.usecase';
 import { CreateUserUseCase } from 'src/usecases/users/create-user.usecase';
+import { ResetPasswordTokenRepository } from '../repositories/prisma/reset-password-token.repository';
 import { UserRepository } from '../repositories/prisma/user.repository';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { BcryptPasswordHasherService } from '../services/bcrypt.password-hasher.service';
 import { JwtAuthTokenService } from '../services/jwt.auth-token.service';
+import { SendEmailService } from '../services/send-email.service';
 import { ServicesModule } from '../services/services.module';
 import { UseCaseProxy } from './usecase-proxy';
 
@@ -14,6 +17,7 @@ import { UseCaseProxy } from './usecase-proxy';
 export class UseCasesProxyModule {
   static POST_CREATE_USER_PROXY = 'postCreateUserProxy';
   static LOGIN_USECASE_PROXY = 'loginUsecaseProxy';
+  static FORGOT_PASSWORD_USECASE_PROXY = 'forgotPasswordUsecaseProxy';
 
   static register(): DynamicModule {
     return {
@@ -55,10 +59,31 @@ export class UseCasesProxyModule {
               ),
             ),
         },
+        {
+          inject: [
+            UserRepository,
+            ResetPasswordTokenRepository,
+            SendEmailService,
+          ],
+          provide: UseCasesProxyModule.FORGOT_PASSWORD_USECASE_PROXY,
+          useFactory: (
+            userRepository: UserRepository,
+            resetPasswordTokenRepository: ResetPasswordTokenRepository,
+            sendEmailService: SendEmailService,
+          ) =>
+            new UseCaseProxy(
+              new ForgotPasswordUsecase(
+                userRepository,
+                sendEmailService,
+                resetPasswordTokenRepository,
+              ),
+            ),
+        },
       ],
       exports: [
         UseCasesProxyModule.POST_CREATE_USER_PROXY,
         UseCasesProxyModule.LOGIN_USECASE_PROXY,
+        UseCasesProxyModule.FORGOT_PASSWORD_USECASE_PROXY,
       ],
     };
   }

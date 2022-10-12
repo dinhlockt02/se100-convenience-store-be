@@ -4,9 +4,20 @@ import { BcryptPasswordHasherService } from './bcrypt.password-hasher.service';
 import { JwtAuthTokenService } from './jwt.auth-token.service';
 import { PrismaService } from './prisma.service';
 import { ConfigModule } from '@nestjs/config';
+import { SendEmailService } from './send-email.service';
 @Module({
   imports: [JwtModule, ConfigModule],
-  providers: [PrismaService, BcryptPasswordHasherService, JwtAuthTokenService],
-  exports: [PrismaService, BcryptPasswordHasherService, JwtAuthTokenService],
+  providers: [
+    PrismaService,
+    BcryptPasswordHasherService,
+    JwtAuthTokenService,
+    SendEmailService,
+  ],
+  exports: [
+    PrismaService,
+    BcryptPasswordHasherService,
+    JwtAuthTokenService,
+    SendEmailService,
+  ],
 })
 export class ServicesModule {}

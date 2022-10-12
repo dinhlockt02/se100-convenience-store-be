@@ -12,3 +12,10 @@ export class AuthLoginDto {
   @MinLength(8)
   readonly password: string;
 }
+
+export class ForgotPasswordDto {
+  @ApiProperty({ required: true, example: 'test@domain.com' })
+  @IsNotEmpty()
+  @IsEmail()
+  readonly email;
+}
