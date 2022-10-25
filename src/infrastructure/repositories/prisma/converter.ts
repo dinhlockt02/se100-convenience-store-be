@@ -1,6 +1,10 @@
-import { ResetPasswordToken, User } from '@prisma/client';
+import {
+  Gender as PrismaGender,
+  ResetPasswordToken,
+  User,
+} from '@prisma/client';
 import { ResetPasswordTokenEntity } from 'src/core/entities/reset-password-token.entity';
-import { UserEntity } from 'src/core/entities/user.entity';
+import { Gender, UserEntity } from 'src/core/entities/user.entity';
 
 export class UserConverter {
   static toEntity(prismaUser: User): UserEntity {
@@ -12,7 +16,36 @@ export class UserConverter {
     userEntity.fullname = prismaUser.fullname;
     userEntity.id = prismaUser.id;
     userEntity.password = prismaUser.password;
+    userEntity.birthday = prismaUser.birthday;
+    userEntity.identityNumber = prismaUser.identityNumber;
+    userEntity.gender =
+      prismaUser.gender == PrismaGender.MALE ? Gender.Male : Gender.Female;
+    userEntity.phoneNumber = prismaUser.phoneNumber;
+    userEntity.address = prismaUser.address;
+    userEntity.other = prismaUser.other;
+    userEntity.avatar = prismaUser.avatar;
     return userEntity;
+  }
+  static toDatabase(userEntity: UserEntity): User {
+    if (userEntity == null) {
+      return null;
+    }
+    const databaseUser = {} as User;
+    databaseUser.email = userEntity.email;
+    databaseUser.fullname = userEntity.fullname;
+    databaseUser.id = userEntity.id;
+    databaseUser.password = userEntity.password;
+    databaseUser.birthday = userEntity.birthday;
+    databaseUser.identityNumber = userEntity.identityNumber;
+    databaseUser.gender =
+      userEntity.gender == Gender.Male
+        ? PrismaGender.MALE
+        : PrismaGender.FEMALE;
+    databaseUser.phoneNumber = userEntity.phoneNumber;
+    databaseUser.address = userEntity.address;
+    databaseUser.other = userEntity.other;
+    databaseUser.avatar = userEntity.avatar;
+    return databaseUser;
   }
 }
 

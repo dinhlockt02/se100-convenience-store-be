@@ -1,6 +1,18 @@
-import { IsEmail, IsInt, IsString, ValidateIf } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsInt,
+  IsNumberString,
+  IsString,
+  IsUrl,
+  ValidateIf,
+} from 'class-validator';
 import { Entity } from './entity';
-
+export enum Gender {
+  Male = 'MALE',
+  Female = 'FEMALE',
+}
 export class UserEntity extends Entity {
   @ValidateIf((object, value) => value !== null && value !== undefined)
   @IsInt()
@@ -11,4 +23,18 @@ export class UserEntity extends Entity {
   password: string;
   @IsString()
   fullname: string;
+  @IsDate()
+  birthday: Date;
+  @IsNumberString()
+  identityNumber: string;
+  @IsEnum(Gender)
+  gender: Gender;
+  @IsNumberString()
+  phoneNumber: string;
+  @IsString()
+  address: string;
+  @IsString()
+  other: string;
+  @IsUrl()
+  avatar: string;
 }

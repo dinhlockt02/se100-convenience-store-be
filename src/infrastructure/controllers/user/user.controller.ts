@@ -3,6 +3,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
   Inject,
   InternalServerErrorException,
   Post,
@@ -13,6 +14,7 @@ import * as BussinessException from 'src/core/exceptions/bussiness.exception';
 import { UseCaseProxy } from 'src/infrastructure/usecase-proxies/usecase-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecase-proxies/usecase-proxy.module';
 import { CreateUserUseCase } from 'src/usecases/users/create-user.usecase';
+import { GetUsersUsecase as GetUsersUseCase } from 'src/usecases/users/get-users.usecase';
 import { CreateUserDto } from './user.dto';
 import { UserPresenter } from './user.presenter';
 
@@ -22,7 +24,19 @@ export class UserController {
   constructor(
     @Inject(UseCasesProxyModule.POST_CREATE_USER_PROXY)
     private readonly createUserUseCase: UseCaseProxy<CreateUserUseCase>,
+    @Inject(UseCasesProxyModule.GET_USERS_USECASE_PROXY)
+    private readonly getUsersUseCase: UseCaseProxy<GetUsersUseCase>,
   ) {}
+
+  @Get()
+  async getUsers() {
+    try {
+      const userEnitities = await this.getUsersUseCase.getInstance().execute();
+      return userEnitities.map((entity) => new UserPresenter(entity));
+    } catch (error) {
+      this.catchError(error);
+    }
+  }
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {

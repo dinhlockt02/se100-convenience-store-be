@@ -16,6 +16,18 @@ model User {
   fullname           String?
   password           String
   ResetPasswordToken ResetPasswordToken[]
+  birthday           DateTime             @db.Date()
+  identityNumber     String
+  gender             Gender
+  phoneNumber        String
+  address            String
+  other              String
+  avatar             String
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 model ResetPasswordToken {
