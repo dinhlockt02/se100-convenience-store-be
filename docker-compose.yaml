@@ -1,0 +1,46 @@
+version: '3.1'
+services:
+  server:
+    build: 
+      dockerfile: Dockerfile.dev
+    platform: linux/arm64
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=mysql://root:example@mysql:3306/se100
+      - JWT.SECRET = 'sercet'
+      - JWT.EXPIRESIN = '1h'
+      - BCRYPT_SALT_ROUND=10
+      - CLIENT_DOMAIN=http://localhost
+    networks:
+      - app-network
+    ports:
+      - 80:3000
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+    networks:
+      - app-network
+    volumes:
+      - se100-mysql-db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+volumes:
+  se100-mysql-db:
+networks:
+  app-network: {}
