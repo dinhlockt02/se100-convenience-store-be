@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.9'
 services:
   server:
     build: 
@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=mysql://root:example@mysql:3306/se100
+      - DATABASE_URL=mysql://root:example@database:3306/se100
       - JWT.SECRET = 'sercet'
       - JWT.EXPIRESIN = '1h'
       - BCRYPT_SALT_ROUND=10
@@ -19,8 +19,8 @@ services:
     volumes:
       - ./src:/app/src
     depends_on:
-      - mysql
-  mysql:
+      - database
+  database:
     image: mysql
     restart: always
     environment:
@@ -40,7 +40,7 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - mysql
+      - database
 volumes:
   se100-mysql-db:
 networks:
