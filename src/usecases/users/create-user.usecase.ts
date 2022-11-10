@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
 import {
   ConflictException,
@@ -22,7 +23,6 @@ export class CreateUserUseCase {
     }
 
     const validationErrors = await userEntity.validateData();
-
     if (validationErrors.length > 0) {
       throw new ValidationException('Validation failed', validationErrors);
     }

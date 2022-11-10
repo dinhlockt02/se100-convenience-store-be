@@ -2,6 +2,7 @@ import { UserEntity } from '../entities/user.entity';
 
 export interface IUserRepository {
   getUserByEmail(email: string): Promise<UserEntity>;
+  getUserById(id: number): Promise<UserEntity>;
   createUser(userEntity: UserEntity): Promise<UserEntity>;
   getUsers(): Promise<UserEntity[]>;
   updateUser(updatedUser: UserEntity): Promise<UserEntity>;

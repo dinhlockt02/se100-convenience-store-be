@@ -5,13 +5,7 @@ services:
       dockerfile: Dockerfile.dev
     platform: linux/arm64
     env_file:
-      - .env
-    environment:
-      - DATABASE_URL=mysql://root:example@database:3306/se100
-      - JWT.SECRET = 'sercet'
-      - JWT.EXPIRESIN = '1h'
-      - BCRYPT_SALT_ROUND=10
-      - CLIENT_DOMAIN=http://localhost
+      - .env.dev
     networks:
       - app-network
     ports:
@@ -19,7 +13,8 @@ services:
     volumes:
       - ./src:/app/src
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   database:
     image: mysql
     restart: always
@@ -32,6 +27,12 @@ services:
       - app-network
     volumes:
       - se100-mysql-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 100s
   adminer:
     image: adminer
     restart: always
@@ -40,8 +41,9 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 volumes:
   se100-mysql-db:
 networks:
-  app-network: {}
+  app-network:

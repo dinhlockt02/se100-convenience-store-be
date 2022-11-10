@@ -2,7 +2,10 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { ForgotPasswordUsecase } from 'src/usecases/auth/forgot-password.usecase';
 import { LoginUsecase } from 'src/usecases/auth/login.usecase';
 import { CreateUserUseCase } from 'src/usecases/users/create-user.usecase';
+import { DeleteUserByIdUsecase } from 'src/usecases/users/delete-user-by-id.usecase';
+import { GetUserByIdUsecase } from 'src/usecases/users/get-users-by-id.usecase';
 import { GetUsersUsecase } from 'src/usecases/users/get-users.usecase';
+import { UpdateUserUseCase } from 'src/usecases/users/update-user.usecase';
 import { ResetPasswordTokenRepository } from '../repositories/prisma/reset-password-token.repository';
 import { UserRepository } from '../repositories/prisma/user.repository';
 import { RepositoriesModule } from '../repositories/repositories.module';
@@ -20,6 +23,9 @@ export class UseCasesProxyModule {
   static LOGIN_USECASE_PROXY = 'loginUsecaseProxy';
   static FORGOT_PASSWORD_USECASE_PROXY = 'forgotPasswordUsecaseProxy';
   static GET_USERS_USECASE_PROXY = 'getUsersUsecaseProxy';
+  static GET_USER_BY_ID_PROXY = 'getUserByIdProxy';
+  static DELETE_USER_BY_ID_PROXY = 'deleteUserByIdProxy';
+  static UPDATE_USER_PROXY = 'updateUserProxy';
 
   static register(): DynamicModule {
     return {
@@ -87,12 +93,33 @@ export class UseCasesProxyModule {
           useFactory: (userRepository: UserRepository) =>
             new UseCaseProxy(new GetUsersUsecase(userRepository)),
         },
+        {
+          inject: [UserRepository],
+          provide: UseCasesProxyModule.GET_USER_BY_ID_PROXY,
+          useFactory: (userRepository: UserRepository) =>
+            new UseCaseProxy(new GetUserByIdUsecase(userRepository)),
+        },
+        {
+          inject: [UserRepository],
+          provide: UseCasesProxyModule.DELETE_USER_BY_ID_PROXY,
+          useFactory: (userRepository: UserRepository) =>
+            new UseCaseProxy(new DeleteUserByIdUsecase(userRepository)),
+        },
+        {
+          inject: [UserRepository],
+          provide: UseCasesProxyModule.UPDATE_USER_PROXY,
+          useFactory: (userRepository: UserRepository) =>
+            new UseCaseProxy(new UpdateUserUseCase(userRepository)),
+        },
       ],
       exports: [
         UseCasesProxyModule.POST_CREATE_USER_PROXY,
         UseCasesProxyModule.LOGIN_USECASE_PROXY,
         UseCasesProxyModule.FORGOT_PASSWORD_USECASE_PROXY,
         UseCasesProxyModule.GET_USERS_USECASE_PROXY,
+        UseCasesProxyModule.GET_USER_BY_ID_PROXY,
+        UseCasesProxyModule.DELETE_USER_BY_ID_PROXY,
+        UseCasesProxyModule.UPDATE_USER_PROXY,
       ],
     };
   }
