@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
 import { NotFoundException, ValidationException } from 'src/core/exceptions';
 import { IUserRepository } from 'src/core/repositories/user.repository.interface';

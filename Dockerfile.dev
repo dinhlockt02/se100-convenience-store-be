@@ -16,4 +16,4 @@ RUN prisma generate
 
 
 
-CMD ["sh" , "./server.sh"]
+CMD ["npm" ,"run", "start:dev"]

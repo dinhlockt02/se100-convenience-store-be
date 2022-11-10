@@ -25,8 +25,8 @@ services:
       - 3306:3306
     networks:
       - app-network
-    volumes:
-      - se100-mysql-db:/var/lib/mysql
+    # volumes:
+    #   - se100-mysql-db:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       interval: 10s
