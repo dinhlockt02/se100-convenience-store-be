@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+
+FROM node:18
+
+WORKDIR /app
+
+RUN npm install -g prisma
+
+CMD ["prisma" ,"migrate", "dev", "--skip-generate"]
