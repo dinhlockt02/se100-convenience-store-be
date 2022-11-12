@@ -11,8 +11,8 @@ export class JwtAuthTokenService implements IAuthTokenService {
   ) {}
 
   async createToken(payload: any): Promise<string> {
-    const secret = this.configService.getOrThrow('JWT.SECRET');
-    const expiresIn = this.configService.getOrThrow('JWT.EXPIRESIN');
+    const secret = this.configService.getOrThrow('JWT_SECRET');
+    const expiresIn = this.configService.getOrThrow('JWT_EXPIRESIN');
     return this.jwtService.signAsync(payload, {
       secret,
       expiresIn,
