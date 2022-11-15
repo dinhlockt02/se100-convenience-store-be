@@ -13,6 +13,12 @@ export enum Gender {
   Male = 'MALE',
   Female = 'FEMALE',
 }
+
+export enum Role {
+  Manager = 'MANAGER',
+  Employee = 'EMPLOYEE',
+}
+
 export class UserEntity extends Entity {
   @ValidateIf((object, value) => value !== null && value !== undefined)
   @IsInt()
@@ -35,6 +41,8 @@ export class UserEntity extends Entity {
   address: string;
   @IsString()
   other: string;
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   avatar: string;
+  @IsEnum(Role)
+  role: Role;
 }

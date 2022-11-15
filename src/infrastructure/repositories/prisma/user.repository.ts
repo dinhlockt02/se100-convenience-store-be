@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
 import { IUserRepository } from 'src/core/repositories/user.repository.interface';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
-import { UserConverter } from './converter';
+import { UserConverter } from './user.converter';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

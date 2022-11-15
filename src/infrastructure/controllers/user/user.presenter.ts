@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Gender, UserEntity } from 'src/core/entities/user.entity';
+import { Gender, Role, UserEntity } from 'src/core/entities/user.entity';
 
 export class UserPresenter {
   @ApiProperty({ required: true, example: 1 })
@@ -22,6 +22,8 @@ export class UserPresenter {
   other: string;
   @ApiProperty({ required: true, example: 'https://localhost/test.jpg' })
   avatar: string;
+  @ApiProperty({ required: true, enum: Role })
+  role: Role;
 
   constructor(userEntity: UserEntity) {
     this.id = userEntity.id;
@@ -34,5 +36,6 @@ export class UserPresenter {
     this.address = userEntity.address;
     this.other = userEntity.other;
     this.avatar = userEntity.avatar;
+    this.role = userEntity.role;
   }
 }

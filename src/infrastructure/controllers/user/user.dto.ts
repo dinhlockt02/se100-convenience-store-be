@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -13,7 +12,7 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { Gender, UserEntity } from 'src/core/entities/user.entity';
+import { Gender, UserEntity, Role } from 'src/core/entities/user.entity';
 
 export class CreateUserDto {
   @ApiProperty({ required: true, example: 'test@domain.com' })
@@ -45,9 +44,12 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({ required: true })
   other: string;
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   @ApiProperty({ required: true, example: 'http://example.com/a.jpg' })
   avatar: string;
+  @IsEnum(Role)
+  @ApiProperty({ required: true, enum: Role })
+  role: Role;
 
   toEntity(): UserEntity {
     const newUserEntity = new UserEntity();
@@ -61,6 +63,7 @@ export class CreateUserDto {
     newUserEntity.address = this.address;
     newUserEntity.other = this.other;
     newUserEntity.avatar = this.avatar;
+    newUserEntity.role = this.role;
     return newUserEntity;
   }
 
@@ -76,6 +79,7 @@ export class CreateUserDto {
     newUserEntity.address = createUserDto.address;
     newUserEntity.other = createUserDto.other;
     newUserEntity.avatar = createUserDto.avatar;
+    newUserEntity.role = createUserDto.role;
     return newUserEntity;
   }
 }
@@ -109,9 +113,12 @@ export class UpdateUserDto {
   @IsString()
   @ApiProperty({ required: true })
   other: string;
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   @ApiProperty({ required: true, example: 'https://example.com/a.jpg' })
   avatar: string;
+  @IsEnum(Role)
+  @ApiProperty({ required: true, enum: Role })
+  role: Role;
 
   static toEntity(updateUserDto: UpdateUserDto): UserEntity {
     const newUserEntity = new UserEntity();
@@ -126,6 +133,7 @@ export class UpdateUserDto {
     newUserEntity.other = updateUserDto.other;
     newUserEntity.avatar = updateUserDto.avatar;
     newUserEntity.password = '';
+    newUserEntity.role = updateUserDto.role;
     return newUserEntity;
   }
 }

@@ -3,8 +3,8 @@ import { UserEntity } from 'src/core/entities/user.entity';
 import { IResetPasswordTokenRepository } from 'src/core/repositories/reset-password-token.repository.interface';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
 import * as BussinessException from 'src/core/exceptions';
-import { ResetPasswordTokenConverter, UserConverter } from './converter';
 import { Injectable } from '@nestjs/common';
+import { ResetPasswordTokenConverter, UserConverter } from './user.converter';
 
 @Injectable()
 export class ResetPasswordTokenRepository

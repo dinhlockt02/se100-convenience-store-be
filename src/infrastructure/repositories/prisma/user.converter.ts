@@ -1,10 +1,11 @@
 import {
   Gender as PrismaGender,
   ResetPasswordToken,
+  Role as PrismaRole,
   User,
 } from '@prisma/client';
 import { ResetPasswordTokenEntity } from 'src/core/entities/reset-password-token.entity';
-import { Gender, UserEntity } from 'src/core/entities/user.entity';
+import { Gender, Role, UserEntity } from 'src/core/entities/user.entity';
 
 export class UserConverter {
   static toEntity(prismaUser: User): UserEntity {
@@ -24,6 +25,9 @@ export class UserConverter {
     userEntity.address = prismaUser.address;
     userEntity.other = prismaUser.other;
     userEntity.avatar = prismaUser.avatar;
+    userEntity.role =
+      prismaUser.role == PrismaRole.MANAGER ? Role.Manager : Role.Employee;
+
     return userEntity;
   }
   static toDatabase(userEntity: UserEntity): User {
@@ -45,6 +49,10 @@ export class UserConverter {
     databaseUser.address = userEntity.address;
     databaseUser.other = userEntity.other;
     databaseUser.avatar = userEntity.avatar;
+    databaseUser.role =
+      userEntity.role == Role.Employee
+        ? PrismaRole.EMPLOYEE
+        : PrismaRole.MANAGER;
     return databaseUser;
   }
 }
