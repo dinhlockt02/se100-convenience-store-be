@@ -8,3 +8,5 @@ export interface IUserRepository {
   updateUser(updatedUser: UserEntity): Promise<UserEntity>;
   deleteUser(id: number): Promise<void>;
 }
+
+export const IUserRepositoryLabel = 'IUserRepositoryLabel';

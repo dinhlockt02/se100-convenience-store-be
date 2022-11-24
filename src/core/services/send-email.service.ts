@@ -10,3 +10,5 @@ export class SendEmailOptions {
   title: string;
   content: string;
 }
+
+export const ISendEmailServiceLabel = 'ISendEmailServiceLabel';

@@ -1,19 +1,30 @@
+import { Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
-import { NotFoundException, ValidationException } from 'src/core/exceptions';
-import { IUserRepository } from 'src/core/repositories/user.repository.interface';
+import { CoreException } from 'src/core/exceptions';
+import {
+  IUserRepository,
+  IUserRepositoryLabel,
+} from 'src/core/repositories/user.repository.interface';
 
+@Injectable()
 export class UpdateUserUseCase {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(
+    @Inject(IUserRepositoryLabel)
+    private readonly userRepository: IUserRepository,
+  ) {}
 
   async execute(userEntity: UserEntity): Promise<UserEntity> {
     const existingUser = await this.userRepository.getUserById(userEntity.id);
     if (!existingUser) {
-      throw new NotFoundException('User not found');
+      throw new CoreException.NotFoundException('User not found');
     }
     const validationErrors = await userEntity.validateData();
 
     if (validationErrors.length > 0) {
-      throw new ValidationException('Validation failed', validationErrors);
+      throw new CoreException.ValidationException(
+        'Validation failed',
+        validationErrors,
+      );
     }
     existingUser.address = userEntity.address;
     existingUser.email = userEntity.email;

@@ -1,15 +1,21 @@
-import { Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
+import { CoreException } from 'src/core/exceptions';
 import {
-  ConflictException,
-  ValidationException,
-} from 'src/core/exceptions/bussiness.exception';
-import { IUserRepository } from 'src/core/repositories/user.repository.interface';
-import { IPasswordHasherService } from 'src/core/services/password-hasher.service';
+  IUserRepository,
+  IUserRepositoryLabel,
+} from 'src/core/repositories/user.repository.interface';
+import {
+  IPasswordHasherService,
+  IPasswordHasherServiceLabel,
+} from 'src/core/services/password-hasher.service';
 
+@Injectable()
 export class CreateUserUseCase {
   constructor(
+    @Inject(IUserRepositoryLabel)
     private readonly userRepository: IUserRepository,
+    @Inject(IPasswordHasherServiceLabel)
     private readonly passwordHasherService: IPasswordHasherService,
   ) {}
 
@@ -19,12 +25,17 @@ export class CreateUserUseCase {
     );
 
     if (existingUser) {
-      throw new ConflictException('User with provided email has existed');
+      throw new CoreException.ConflictException(
+        'User with provided email has existed',
+      );
     }
 
     const validationErrors = await userEntity.validateData();
     if (validationErrors.length > 0) {
-      throw new ValidationException('Validation failed', validationErrors);
+      throw new CoreException.ValidationException(
+        'Validation failed',
+        validationErrors,
+      );
     }
     const hashedPassword = await this.passwordHasherService.hash(
       userEntity.password,

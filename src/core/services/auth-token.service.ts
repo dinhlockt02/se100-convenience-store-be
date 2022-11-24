@@ -6,3 +6,5 @@ export interface IAuthTokenService {
   createToken(payload: IToken): Promise<string>;
   verify(token: string): Promise<IToken>;
 }
+
+export const IAuthTokenServiceLabel = 'IAuthTokenServiceLabel';

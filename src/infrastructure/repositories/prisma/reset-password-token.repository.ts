@@ -2,7 +2,7 @@ import { ResetPasswordTokenEntity } from 'src/core/entities/reset-password-token
 import { UserEntity } from 'src/core/entities/user.entity';
 import { IResetPasswordTokenRepository } from 'src/core/repositories/reset-password-token.repository.interface';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
-import * as BussinessException from 'src/core/exceptions';
+import { CoreException } from 'src/core/exceptions';
 import { Injectable } from '@nestjs/common';
 import { ResetPasswordTokenConverter, UserConverter } from './user.converter';
 
@@ -13,7 +13,7 @@ export class ResetPasswordTokenRepository
   constructor(private readonly prisma: PrismaService) {}
   async createToken(userEntity: UserEntity): Promise<ResetPasswordTokenEntity> {
     if (!userEntity.id) {
-      throw new BussinessException.NotFoundException('User is not existed');
+      throw new CoreException.NotFoundException('User is not existed');
     }
     const user = await this.prisma.user.findUnique({
       where: {
@@ -21,7 +21,7 @@ export class ResetPasswordTokenRepository
       },
     });
     if (!user) {
-      throw new BussinessException.NotFoundException('User is not existed');
+      throw new CoreException.NotFoundException('User is not existed');
     }
     const token = await this.prisma.resetPasswordToken.create({
       data: {
@@ -35,7 +35,7 @@ export class ResetPasswordTokenRepository
   }
   async verifyToken(token: ResetPasswordTokenEntity): Promise<UserEntity> {
     if (!token || !token.id) {
-      throw new BussinessException.NotFoundException('Token not found');
+      throw new CoreException.NotFoundException('Token not found');
     }
 
     const existedToken = await this.prisma.resetPasswordToken.findUnique({
@@ -47,7 +47,7 @@ export class ResetPasswordTokenRepository
       },
     });
     if (!existedToken) {
-      throw new BussinessException.NotFoundException('Token not found');
+      throw new CoreException.NotFoundException('Token not found');
     }
     return UserConverter.toEntity(existedToken.user);
   }

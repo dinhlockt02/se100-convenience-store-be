@@ -1,2 +1,1 @@
-export * from './auth.exception';
-export * from './bussiness.exception';
+export * as CoreException from './bussiness.exception';

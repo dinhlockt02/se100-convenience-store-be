@@ -2,23 +2,19 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import {
   BadRequestException,
-  Inject,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UseCaseProxy } from 'src/infrastructure/usecase-proxies/usecase-proxy';
 import { LoginUsecase } from 'src/usecases/auth/login.usecase';
-import { UseCasesProxyModule } from 'src/infrastructure/usecase-proxies/usecase-proxy.module';
-import * as BussinessException from 'src/core/exceptions';
+import { CoreException } from 'src/core/exceptions';
+import { HandleExeption } from '../exception/handler';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    @Inject(UseCasesProxyModule.LOGIN_USECASE_PROXY)
-    private readonly loginUsecaseProxy: UseCaseProxy<LoginUsecase>,
-  ) {
+  constructor(private readonly loginUsecaseProxy: LoginUsecase) {
     super({
       usernameField: 'email',
     });
@@ -29,9 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new BadRequestException('Invalid email or password');
     }
     try {
-      const token = await this.loginUsecaseProxy
-        .getInstance()
-        .execute(email, password);
+      const token = await this.loginUsecaseProxy.execute(email, password);
 
       return {
         access_token: token,
@@ -41,13 +35,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     }
   }
 
-  catchError(error: BussinessException.BussinessException) {
-    if (error instanceof BussinessException.NotFoundException) {
-      throw new NotFoundException('Email has not been registered');
+  catchError(error: Error) {
+    if (error instanceof CoreException.BussinessException) {
+      HandleExeption(error);
     }
-    if (error instanceof UnauthorizedException) {
-      throw new UnauthorizedException(error.message);
-    }
-    throw new InternalServerErrorException(error.message);
+    throw new InternalServerErrorException(error);
   }
 }

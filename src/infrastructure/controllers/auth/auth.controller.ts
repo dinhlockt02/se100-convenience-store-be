@@ -4,28 +4,33 @@ import {
   UseGuards,
   Request,
   Body,
-  Inject,
-  BadRequestException,
-  ConflictException,
   InternalServerErrorException,
-  UnauthorizedException,
   HttpCode,
 } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { error } from 'console';
+import { CoreException } from 'src/core/exceptions';
+import {
+  apiResponseBadRequestOptions,
+  apiResponseConflictOptions,
+  apiResponseInternalServerOptions,
+  apiResponseNotFoundOptions,
+  apiResponseUnauthorizedOptions,
+  HandleExeption,
+} from 'src/infrastructure/common/exception/handler';
 import { LocalAuthGuard } from 'src/infrastructure/common/guards/local.auth-guard';
-import { UseCaseProxy } from 'src/infrastructure/usecase-proxies/usecase-proxy';
-import { UseCasesProxyModule } from 'src/infrastructure/usecase-proxies/usecase-proxy.module';
 import { ForgotPasswordUsecase } from 'src/usecases/auth/forgot-password.usecase';
 import { AuthLoginDto, ForgotPasswordDto } from './auth.dto';
-import * as BussinessException from 'src/core/exceptions';
 
 @Controller('auth')
 @ApiTags('auth')
+@ApiResponse(apiResponseBadRequestOptions)
+@ApiResponse(apiResponseConflictOptions)
+@ApiResponse(apiResponseNotFoundOptions)
+@ApiResponse(apiResponseUnauthorizedOptions)
+@ApiResponse(apiResponseInternalServerOptions)
 export class AuthController {
-  constructor(
-    @Inject(UseCasesProxyModule.FORGOT_PASSWORD_USECASE_PROXY)
-    private readonly forgotPasswordUsecase: UseCaseProxy<ForgotPasswordUsecase>,
-  ) {}
+  constructor(private readonly forgotPasswordUsecase: ForgotPasswordUsecase) {}
 
   // @Login API
   @UseGuards(LocalAuthGuard)
@@ -50,25 +55,19 @@ export class AuthController {
   @HttpCode(200)
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     try {
-      const token = await this.forgotPasswordUsecase
-        .getInstance()
-        .execute(forgotPasswordDto.email);
+      const token = await this.forgotPasswordUsecase.execute(
+        forgotPasswordDto.email,
+      );
       return token;
     } catch (error) {
       this.catchError(error);
     }
   }
 
-  catchError(exception: BussinessException.BussinessException) {
-    if (exception instanceof BussinessException.ConflictException) {
-      throw new ConflictException(exception.message);
+  catchError(error: Error) {
+    if (error instanceof CoreException.BussinessException) {
+      HandleExeption(error);
     }
-    if (exception instanceof BussinessException.ValidationException) {
-      throw new BadRequestException(exception.errors);
-    }
-    if (exception instanceof BussinessException.AuthException) {
-      throw new UnauthorizedException(exception.message);
-    }
-    throw new InternalServerErrorException(exception.message);
+    throw new InternalServerErrorException(error);
   }
 }

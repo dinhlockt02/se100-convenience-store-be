@@ -5,3 +5,6 @@ export interface IResetPasswordTokenRepository {
   createToken(userEntity: UserEntity): Promise<ResetPasswordTokenEntity>;
   verifyToken(token: ResetPasswordTokenEntity): Promise<UserEntity>;
 }
+
+export const IResetPasswordTokenRepositoryLabel =
+  'IResetPasswordTokenRepositoryLabel';
