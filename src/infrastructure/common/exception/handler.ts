@@ -10,7 +10,7 @@ import { CoreException } from 'src/core/exceptions';
 
 export const HandleExeption = (err: CoreException.BussinessException) => {
   if (err instanceof CoreException.NotFoundException) {
-    throw new NotFoundException('Email has not been registered');
+    throw new NotFoundException(err.message);
   }
   if (err instanceof CoreException.UnauthotizedException) {
     throw new UnauthorizedException(err.message);

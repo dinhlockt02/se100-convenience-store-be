@@ -47,19 +47,20 @@ model ResetPasswordToken {
 // Product related models
 
 model Provider {
-  id           Int            @id @default(autoincrement())
-  address      String
-  email        String
-  products     Product[]      @relation()
-  DeliveryNote DeliveryNote[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  address       String
+  email         String
+  products      Product[]      @relation()
+  deliveryNotes DeliveryNote[]
 }
 
 model Product {
-  id          String        @id @default(uuid())
-  title       String
-  tax         Decimal
-  providers   Provider[]    @relation()
-  ProductItem ProductItem[]
+  id           String        @id @default(uuid())
+  title        String
+  tax          Decimal
+  providers    Provider[]    @relation()
+  ProductItems ProductItem[]
 }
 
 model DeliveryNote {

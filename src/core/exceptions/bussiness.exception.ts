@@ -14,3 +14,4 @@ export class ValidationException extends BussinessException {
 export class UnauthotizedException extends BussinessException {}
 
 export class NotFoundException extends BussinessException {}
+export class DatabaseException extends BussinessException {}
