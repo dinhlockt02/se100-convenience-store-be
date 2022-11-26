@@ -20,11 +20,11 @@ import {
   apiResponseUnauthorizedOptions,
   HandleExeption,
 } from 'src/infrastructure/common/exception/handler';
-import { CreateUserUseCase } from 'src/usecases/users/create-user.usecase';
-import { DeleteUserByIdUsecase as DeleteUserUsecase } from 'src/usecases/users/delete-user-by-id.usecase';
-import { GetUserByIdUsecase } from 'src/usecases/users/get-users-by-id.usecase';
-import { GetUsersUsecase as GetUsersUseCase } from 'src/usecases/users/get-users.usecase';
-import { UpdateUserUseCase } from 'src/usecases/users/update-user.usecase';
+import { CreateUserUseCase } from 'src/usecases/user/create-user.usecase';
+import { DeleteUserByIdUsecase as DeleteUserUsecase } from 'src/usecases/user/delete-user-by-id.usecase';
+import { GetUserByIdUsecase } from 'src/usecases/user/get-users-by-id.usecase';
+import { GetUsersUsecase as GetUsersUseCase } from 'src/usecases/user/get-users.usecase';
+import { UpdateUserUseCase } from 'src/usecases/user/update-user.usecase';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { UserPresenter } from './user.presenter';
 
