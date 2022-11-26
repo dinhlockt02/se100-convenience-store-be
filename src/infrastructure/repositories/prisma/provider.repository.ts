@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Provider } from '@prisma/client';
 import { ProviderEntity } from 'src/core/entities/provider.entity';
 import { CoreException } from 'src/core/exceptions';

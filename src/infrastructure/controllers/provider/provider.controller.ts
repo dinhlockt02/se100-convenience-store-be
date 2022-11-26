@@ -88,7 +88,7 @@ export class ProviderController {
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 200, type: ProviderPresenter })
+  @ApiResponse({ status: 200 })
   async deleteProvider(@Param('id', ParseIntPipe) id: number) {
     try {
       await this.deleteProviderUsecase.execute(id);

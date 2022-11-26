@@ -16,7 +16,7 @@ export const HandleExeption = (err: CoreException.BussinessException) => {
     throw new UnauthorizedException(err.message);
   }
   if (err instanceof CoreException.ValidationException) {
-    throw new BadRequestException(err.message);
+    throw new BadRequestException(err.errors);
   }
   if (err instanceof CoreException.ConflictException) {
     throw new ConflictException(err.message);
