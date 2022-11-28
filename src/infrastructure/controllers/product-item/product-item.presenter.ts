@@ -21,6 +21,8 @@ export class ProductItemPresenter {
   @ApiProperty()
   quantity: number;
   @ApiProperty()
+  initialQuantity: number;
+  @ApiProperty()
   description: string;
   @ApiProperty()
   image: string;
@@ -39,6 +41,7 @@ export class ProductItemPresenter {
       cost: productItem.cost,
       price: productItem.price,
       quantity: productItem.quantity,
+      initialQuantity: productItem.initialQuantity,
       description: productItem.description,
       image: productItem.image,
     };

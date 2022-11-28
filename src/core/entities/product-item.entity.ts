@@ -21,6 +21,9 @@ export class ProductItemEntity extends Entity {
   price: number;
   @IsInt()
   @Min(0)
+  initialQuantity: number;
+  @IsInt()
+  @Min(0)
   quantity: number;
   @IsString()
   description: string;
@@ -37,6 +40,7 @@ export class ProductItemEntity extends Entity {
     cost: number,
     price: number,
     quantity: number,
+    initialQuantity: number,
     description: string,
     image: string,
   ) {
@@ -49,6 +53,7 @@ export class ProductItemEntity extends Entity {
     this.cost = cost;
     this.price = price;
     this.quantity = quantity;
+    this.initialQuantity = initialQuantity;
     this.description = description;
     this.image = image;
     this.invoiceDetails = [];

@@ -73,23 +73,25 @@ model DeliveryNote {
 }
 
 model ProductItem {
-  id             String          @id @default(uuid())
-  product        Product         @relation(fields: [productId], references: [id])
-  productId      String
-  deliveryNote   DeliveryNote    @relation(fields: [deliveryNoteId], references: [id])
-  deliveryNoteId Int
+  id              String          @id @default(uuid())
+  product         Product         @relation(fields: [productId], references: [id])
+  productId       String
+  deliveryNote    DeliveryNote    @relation(fields: [deliveryNoteId], references: [id])
+  deliveryNoteId  Int
   /// Manufaturing Date
-  MFG            DateTime
+  MFG             DateTime
   /// Expiration Date
-  EXP            DateTime
+  EXP             DateTime
   /// The money that store spent buying the product
-  cost           Int
+  cost            Int
   /// The money that customers have to pay to buy product 
-  price          Int
-  quantity       Int
-  description    String
-  image          String
-  InvoiceDetail  InvoiceDetail[]
+  price           Int
+  quantity        Int
+  /// The quantity at the first time
+  initialQuantity Int
+  description     String
+  image           String
+  InvoiceDetail   InvoiceDetail[]
 }
 
 // Invoice related models

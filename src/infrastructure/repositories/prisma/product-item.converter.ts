@@ -29,6 +29,7 @@ export class ProductItemConverter {
       cost: productItem.cost,
       price: productItem.price,
       quantity: productItem.quantity,
+      initialQuantity: productItem.initialQuantity,
       description: productItem.description,
       image: productItem.image,
     };
@@ -49,6 +50,7 @@ export class ProductItemConverter {
       productItem.cost,
       productItem.price,
       productItem.quantity,
+      productItem.initialQuantity,
       productItem.description,
       productItem.image,
     );

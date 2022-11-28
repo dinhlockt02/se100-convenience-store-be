@@ -40,6 +40,7 @@ export class AddProductItemUsecase {
       cost,
       price,
       quantity,
+      quantity,
       description,
       image,
     );
