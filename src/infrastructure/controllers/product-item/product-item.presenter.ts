@@ -1,41 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { DeliveryNoteEntity } from 'src/core/entities/delivery-note.entity';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
+import { DeliveryNotePresenter } from '../delivery-note/delivery-note.presenter';
 import { ProductPresenter } from '../product/product.presenter';
-import { ProviderPresenter } from '../provider/provider.presenter';
-
-export class DeliveryNotePresenter {
-  @ApiProperty()
-  id: number;
-  @ApiProperty()
-  provider: ProviderPresenter;
-  @ApiProperty()
-  date: Date;
-  @ApiProperty()
-  total: number;
-  @ApiProperty()
-  productItems: ProductItemPresenter[];
-
-  static fromDeliveryNoteEntity(
-    deliveryNote: DeliveryNoteEntity,
-  ): DeliveryNotePresenter {
-    return {
-      id: deliveryNote.id,
-      provider: ProviderPresenter.fromEntity(deliveryNote.provider),
-      date: deliveryNote.date,
-      total: deliveryNote.total,
-      productItems: deliveryNote.productItems.map((productItem) =>
-        ProductItemPresenter.fromProductItemEntity(productItem),
-      ),
-    };
-  }
-}
 
 export class ProductItemPresenter {
   @ApiProperty()
   id: string;
   @ApiProperty()
   product: ProductPresenter;
+  @ApiProperty()
+  deliveryNote: DeliveryNotePresenter;
   @ApiProperty()
   MFG: Date;
   @ApiProperty()
@@ -57,6 +31,9 @@ export class ProductItemPresenter {
     return {
       id: productItem.id,
       product: new ProductPresenter(productItem.product),
+      deliveryNote: DeliveryNotePresenter.fromDeliveryNoteEntity(
+        productItem.deliveryNote,
+      ),
       MFG: productItem.MFG,
       EXP: productItem.EXP,
       cost: productItem.cost,

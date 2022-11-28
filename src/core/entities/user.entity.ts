@@ -41,7 +41,6 @@ export class UserEntity extends Entity {
   address: string;
   @IsString()
   other: string;
-  @IsUrl({ require_tld: false })
   avatar: string;
   @IsEnum(Role)
   role: Role;
