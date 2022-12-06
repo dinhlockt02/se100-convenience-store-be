@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { UserEntity } from 'src/core/entities/user.entity';
 import { CoreException } from 'src/core/exceptions';
 import {
   IUserRepository,
@@ -24,7 +25,13 @@ export class LoginUsecase {
     private readonly authTokenService: IAuthTokenService,
   ) {}
 
-  async execute(email: string, password: string): Promise<string> {
+  async execute(
+    email: string,
+    password: string,
+  ): Promise<{
+    token: string;
+    user: UserEntity;
+  }> {
     const existingUser = await this.userRepository.getUserByEmail(email);
     if (!existingUser) {
       throw new CoreException.UnauthotizedException(
@@ -47,6 +54,9 @@ export class LoginUsecase {
       sub: existingUser.id,
     });
 
-    return token;
+    return {
+      token,
+      user: existingUser,
+    };
   }
 }
