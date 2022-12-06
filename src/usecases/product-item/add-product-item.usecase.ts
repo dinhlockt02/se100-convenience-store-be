@@ -2,6 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { CoreException } from 'src/core/exceptions';
 import {
+  IProductItemQuantityStateRuleRepositoryLabel,
+  IProductItemQuantityStateRuleRepository,
+} from 'src/core/repositories/product-item-quantity-state-rule.repository';
+import {
   IProductItemRepository,
   IProductItemRepositoryLabel,
 } from 'src/core/repositories/product-item.repository.interface';
@@ -15,6 +19,8 @@ export class AddProductItemUsecase {
     private readonly productItemRepository: IProductItemRepository,
     private readonly getProductByIdUsecase: GetProductByIdUsecase,
     private readonly getDeliveryNoteByIdUsecase: GetDeliveryNoteByIdUsecase,
+    @Inject(IProductItemQuantityStateRuleRepositoryLabel)
+    private readonly productItemQuantityStateRuleRepository: IProductItemQuantityStateRuleRepository,
   ) {}
   async execute(
     productId: string,
@@ -51,6 +57,10 @@ export class AddProductItemUsecase {
     }
     const createdProductItem =
       await this.productItemRepository.createProductItem(productItem);
-    return createdProductItem;
+    const rs = await this.productItemQuantityStateRuleRepository.updateState([
+      createdProductItem,
+    ]);
+
+    return rs[0];
   }
 }

@@ -21,7 +21,10 @@ import { DeleteDeliveryNoteUsecase } from 'src/usecases/delivery-note/delete-del
 import { GetDeliveryNoteByIdUsecase } from 'src/usecases/delivery-note/get-delivery-note-by-id.usecase';
 import { GetDeliveryNotesUsecase } from 'src/usecases/delivery-note/get-delivery-notes.usecase';
 import { DeliveryNoteDto } from './delivery-note.dto';
-import { DeliveryNotePresenter } from './delivery-note.presenter';
+import {
+  DeliveryNotePresenter,
+  DeliveryNotePresenterNoProductItems,
+} from './delivery-note.presenter';
 
 @Controller('/delivery-notes')
 @ApiTags('delivery notes')
@@ -61,14 +64,16 @@ export class DeliveryNoteController {
   @Get()
   @ApiResponse({
     status: 200,
-    type: DeliveryNotePresenter,
+    type: DeliveryNotePresenterNoProductItems,
     isArray: true,
   })
   async getDeliveryNotes() {
     try {
       const deliveryNotes = await this.getDeliveryNotesUsecase.execute();
       return deliveryNotes.map((deliveryNote) =>
-        DeliveryNotePresenter.fromDeliveryNoteEntity(deliveryNote),
+        DeliveryNotePresenterNoProductItems.fromDeliveryNoteEntity(
+          deliveryNote,
+        ),
       );
     } catch (error) {
       HandleExeption(error);

@@ -1,4 +1,5 @@
 import { ProductItemQuantityStateRuleEntity } from '../entities/product-item-quantity-state-rule.entity';
+import { ProductItemEntity } from '../entities/product-item.entity';
 
 export interface IProductItemQuantityStateRuleRepository {
   getProductItemQuantityStateRules(): Promise<
@@ -17,6 +18,8 @@ export interface IProductItemQuantityStateRuleRepository {
   ): Promise<ProductItemQuantityStateRuleEntity>;
 
   deleteProductItemQuantityStateRule(id: number);
+
+  updateState(productItems: ProductItemEntity[]): Promise<ProductItemEntity[]>;
 }
 
 export const IProductItemQuantityStateRuleRepositoryLabel =
