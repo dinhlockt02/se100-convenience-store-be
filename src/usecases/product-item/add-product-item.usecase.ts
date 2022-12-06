@@ -43,6 +43,7 @@ export class AddProductItemUsecase {
       quantity,
       description,
       image,
+      [],
     );
     const errors = await productItem.validateData();
     if (errors && errors.length > 0) {

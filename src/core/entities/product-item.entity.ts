@@ -2,6 +2,7 @@ import { IsArray, IsDate, IsInt, IsString, IsUrl, Min } from 'class-validator';
 import { DeliveryNoteEntity } from './delivery-note.entity';
 import { Entity } from './entity';
 import { InvoiceDetailEntity } from './invoice-detail.entity';
+import { ProductItemStateEntity } from './product-state.entity';
 import { ProductEntity } from './product.entity';
 
 export class ProductItemEntity extends Entity {
@@ -30,6 +31,8 @@ export class ProductItemEntity extends Entity {
   image: string;
   @IsArray()
   invoiceDetails: InvoiceDetailEntity[];
+  @IsArray()
+  state: ProductItemStateEntity[];
 
   constructor(
     id: string,
@@ -43,6 +46,7 @@ export class ProductItemEntity extends Entity {
     initialQuantity: number,
     description: string,
     image: string,
+    state: ProductItemStateEntity[],
   ) {
     super();
     this.id = id;
@@ -57,5 +61,6 @@ export class ProductItemEntity extends Entity {
     this.description = description;
     this.image = image;
     this.invoiceDetails = [];
+    this.state = state;
   }
 }
