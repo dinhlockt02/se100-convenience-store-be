@@ -117,3 +117,18 @@ model InvoiceDetail {
 
   @@id([productItemId, invoiceId])
 }
+
+model ProductItemQuantityStateRule {
+  id        Int    @id() @default(autoincrement())
+  stateName String
+  minVal    Int
+  maxVal    Int
+  color     String
+}
+
+model ProductItemExpireStateRule {
+  id        Int    @id() @default(autoincrement())
+  stateName String
+  val       Int
+  color     String
+}

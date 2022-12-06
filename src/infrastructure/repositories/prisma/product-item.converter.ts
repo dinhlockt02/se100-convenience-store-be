@@ -53,6 +53,7 @@ export class ProductItemConverter {
       productItem.initialQuantity,
       productItem.description,
       productItem.image,
+      [],
     );
   }
 }
