@@ -14,7 +14,7 @@ import { HandleExeption } from '../exception/handler';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly loginUsecaseProxy: LoginUsecase) {
+  constructor(private readonly loginUsecase: LoginUsecase) {
     super({
       usernameField: 'email',
     });
@@ -25,10 +25,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new BadRequestException('Invalid email or password');
     }
     try {
-      const token = await this.loginUsecaseProxy.execute(email, password);
-
+      const { token, user } = await this.loginUsecase.execute(email, password);
       return {
         access_token: token,
+        user,
       };
     } catch (error) {
       this.catchError(error);

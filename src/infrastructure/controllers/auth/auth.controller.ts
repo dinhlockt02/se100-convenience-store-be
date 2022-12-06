@@ -6,6 +6,7 @@ import {
   Body,
   InternalServerErrorException,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { error } from 'console';
@@ -20,7 +21,9 @@ import {
 } from 'src/infrastructure/common/exception/handler';
 import { LocalAuthGuard } from 'src/infrastructure/common/guards/local.auth-guard';
 import { ForgotPasswordUsecase } from 'src/usecases/auth/forgot-password.usecase';
+import { UserPresenter } from '../user/user.presenter';
 import { AuthLoginDto, ForgotPasswordDto } from './auth.dto';
+import { AuthPresenter } from './auth.presenter';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -37,16 +40,10 @@ export class AuthController {
   @ApiBody({ type: AuthLoginDto })
   @ApiResponse({
     status: 200,
-    schema: {
-      type: 'object',
-      properties: {
-        access_token: {
-          type: 'string',
-        },
-      },
-    },
+    type: AuthPresenter,
   })
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Request() req) {
     return req.user;
   }
