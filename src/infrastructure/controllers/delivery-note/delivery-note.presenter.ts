@@ -4,6 +4,12 @@ import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { ProductPresenter } from '../product/product.presenter';
 import { ProviderPresenter } from '../provider/provider.presenter';
 
+class ProductItemState {
+  @ApiProperty()
+  stateName: string;
+  @ApiProperty()
+  color: string;
+}
 class DeliveryNoteProductItemPresenter {
   @ApiProperty()
   id: string;
@@ -25,6 +31,11 @@ class DeliveryNoteProductItemPresenter {
   description: string;
   @ApiProperty()
   image: string;
+  @ApiProperty({
+    type: ProductItemState,
+    isArray: true,
+  })
+  state: ProductItemState[];
 
   static fromProductItemEntity(
     productItem: ProductItemEntity,
@@ -40,6 +51,34 @@ class DeliveryNoteProductItemPresenter {
       initialQuantity: productItem.initialQuantity,
       description: productItem.description,
       image: productItem.image,
+      state: productItem.state.map((st) => {
+        return {
+          stateName: st.stateName,
+          color: st.color,
+        };
+      }),
+    };
+  }
+}
+
+export class DeliveryNotePresenterNoProductItems {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  provider: ProviderPresenter;
+  @ApiProperty()
+  date: Date;
+  @ApiProperty()
+  total: number;
+
+  static fromDeliveryNoteEntity(
+    deliveryNote: DeliveryNoteEntity,
+  ): DeliveryNotePresenterNoProductItems {
+    return {
+      id: deliveryNote.id,
+      provider: ProviderPresenter.fromEntity(deliveryNote.provider),
+      date: deliveryNote.date,
+      total: deliveryNote.total,
     };
   }
 }

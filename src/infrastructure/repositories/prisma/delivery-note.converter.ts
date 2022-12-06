@@ -22,11 +22,12 @@ export class DeliveryNoteConverter {
     if (!deliveryNote) {
       return null;
     }
-    return new DeliveryNoteEntity(
+    const entity = new DeliveryNoteEntity(
       deliveryNote.id,
       deliveryNote.total,
       ProviderConverter.fromPrismaProvider(deliveryNote.provider),
       deliveryNote.date,
     );
+    return entity;
   }
 }

@@ -1,6 +1,7 @@
 import {
   IsInt,
   IsString,
+  Min,
   registerDecorator,
   ValidationOptions,
 } from 'class-validator';
@@ -13,6 +14,7 @@ export class ProductItemQuantityStateRuleEntity extends Entity {
   @IsString()
   stateName: string;
   @IsInt()
+  @Min(1)
   minVal: number;
   @IsInt()
   @IsLargerThan('minVal', {

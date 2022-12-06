@@ -11,6 +11,8 @@ import {
 import { LoginUsecase } from 'src/usecases/auth/login.usecase';
 import { CoreException } from 'src/core/exceptions';
 import { HandleExeption } from '../exception/handler';
+import { UserEntity } from 'src/core/entities/user.entity';
+import { UserPresenter } from 'src/infrastructure/controllers/user/user.presenter';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -20,7 +22,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(email: string, password: string): Promise<any> {
+  async validate(
+    email: string,
+    password: string,
+  ): Promise<{
+    access_token: string;
+    user: UserPresenter;
+  }> {
     if (!email || !password) {
       throw new BadRequestException('Invalid email or password');
     }
@@ -28,7 +36,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       const { token, user } = await this.loginUsecase.execute(email, password);
       return {
         access_token: token,
-        user,
+        user: new UserPresenter(user),
       };
     } catch (error) {
       this.catchError(error);

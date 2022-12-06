@@ -41,6 +41,9 @@ export class ProductItemConverter {
       deliveryNote: DeliveryNote & { provider: Provider };
     },
   ): ProductItemEntity {
+    if (!productItem) {
+      return null;
+    }
     return new ProductItemEntity(
       productItem.id,
       ProductConverter.fromPrismaProduct(productItem.product),

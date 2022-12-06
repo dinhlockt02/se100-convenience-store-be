@@ -3,6 +3,13 @@ import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { DeliveryNotePresenter } from '../delivery-note/delivery-note.presenter';
 import { ProductPresenter } from '../product/product.presenter';
 
+class ProductItemState {
+  @ApiProperty()
+  stateName: string;
+  @ApiProperty()
+  color: string;
+}
+
 export class ProductItemPresenter {
   @ApiProperty()
   id: string;
@@ -26,6 +33,11 @@ export class ProductItemPresenter {
   description: string;
   @ApiProperty()
   image: string;
+  @ApiProperty({
+    type: ProductItemState,
+    isArray: true,
+  })
+  state: ProductItemState[];
 
   static fromProductItemEntity(
     productItem: ProductItemEntity,
@@ -44,6 +56,12 @@ export class ProductItemPresenter {
       initialQuantity: productItem.initialQuantity,
       description: productItem.description,
       image: productItem.image,
+      state: productItem.state.map((st) => {
+        return {
+          stateName: st.stateName,
+          color: st.color,
+        };
+      }),
     };
   }
 }
