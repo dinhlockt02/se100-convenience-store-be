@@ -6,6 +6,8 @@ export interface IProductItemRepository {
   getProductItemByDeliveryNote(
     deliveryNoteId: number,
   ): Promise<ProductItemEntity[]>;
+
+  getProductItemById(id: string): Promise<ProductItemEntity>;
 }
 
 export const IProductItemRepositoryLabel = 'IProductItemRepositoryLabel';

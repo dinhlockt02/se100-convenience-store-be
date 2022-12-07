@@ -5,6 +5,7 @@ import { DeliveryNoteUsecasesModule } from '../delivery-note/delivery-note.useca
 import { ProductUsecasesModule } from '../product/product.usecases.module';
 import { AddProductItemUsecase } from './add-product-item.usecase';
 import { GetProductItemByDeliveryNoteUsecase } from './get-product-item-by-delivery-note-id.usecase';
+import { GetProductItemByIdUsecase } from './get-product-item-by-id.usecase';
 import { RemoveProductItemUsecase } from './remove-product-item.usecase';
 
 @Module({
@@ -18,11 +19,13 @@ import { RemoveProductItemUsecase } from './remove-product-item.usecase';
     AddProductItemUsecase,
     RemoveProductItemUsecase,
     GetProductItemByDeliveryNoteUsecase,
+    GetProductItemByIdUsecase,
   ],
   exports: [
     AddProductItemUsecase,
     RemoveProductItemUsecase,
     GetProductItemByDeliveryNoteUsecase,
+    GetProductItemByIdUsecase,
   ],
 })
 export class ProductItemUsecasesModule {}
