@@ -20,6 +20,13 @@ export class GetDeliveryNotesUsecase {
 
   async execute(): Promise<DeliveryNoteEntity[]> {
     const deliveryNotes = await this.deliveryNoteRepository.getDeliveryNotes();
+    const updateStatesPromises = deliveryNotes.forEach(async (note) => {
+      note.productItems =
+        await this.productItemQuantityStateRuleRepository.updateState(
+          note.productItems,
+        );
+      return note;
+    });
     return deliveryNotes;
   }
 }
