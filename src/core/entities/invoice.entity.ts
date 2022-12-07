@@ -6,7 +6,6 @@ export class InvoiceEntity extends Entity {
   id: string;
   date: Date;
   creator: UserEntity;
-  userId: number;
   total: number;
   invoiceDetails: InvoiceDetailEntity[];
 }
