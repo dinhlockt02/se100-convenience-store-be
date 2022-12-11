@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import e from 'express';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { CoreException } from 'src/core/exceptions';
 import { IProductItemRepository } from 'src/core/repositories/product-item.repository.interface';
@@ -72,6 +74,13 @@ export class ProductItemRepository implements IProductItemRepository {
         },
       });
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code == 'P2003') {
+          throw new CoreException.ConflictException(
+            'Product item has been used.',
+          );
+        }
+      }
       throw new CoreException.DatabaseException(error);
     }
   }
