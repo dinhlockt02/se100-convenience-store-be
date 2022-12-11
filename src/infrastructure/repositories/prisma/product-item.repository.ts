@@ -10,6 +10,21 @@ import { ProductItemConverter } from './product-item.converter';
 @Injectable()
 export class ProductItemRepository implements IProductItemRepository {
   constructor(private readonly prisma: PrismaService) {}
+  async getProductItems(): Promise<ProductItemEntity[]> {
+    const productItems = await this.prisma.productItem.findMany({
+      include: {
+        deliveryNote: {
+          include: {
+            provider: true,
+          },
+        },
+        product: true,
+      },
+    });
+    return productItems.map((productItem) =>
+      ProductItemConverter.toProductItemEntity(productItem),
+    );
+  }
   async getProductItemById(id: string): Promise<ProductItemEntity> {
     const productItem = await this.prisma.productItem.findUnique({
       where: {

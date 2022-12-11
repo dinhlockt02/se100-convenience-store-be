@@ -10,6 +10,7 @@ import {
 } from 'src/infrastructure/common/exception/handler';
 import { AddProductItemUsecase } from 'src/usecases/product-item/add-product-item.usecase';
 import { GetProductItemByIdUsecase } from 'src/usecases/product-item/get-product-item-by-id.usecase';
+import { GetProductItemsUsecase } from 'src/usecases/product-item/get-product-items.usecase';
 import { RemoveProductItemUsecase } from 'src/usecases/product-item/remove-product-item.usecase';
 import { ProductItemDto } from './product-item.dto';
 import { ProductItemPresenter } from './product-item.presenter';
@@ -26,6 +27,7 @@ export class ProductItemController {
     private readonly addProductItemUsecase: AddProductItemUsecase,
     private readonly removeProductItemUsecase: RemoveProductItemUsecase,
     private readonly getProductItemByIdUsecase: GetProductItemByIdUsecase,
+    private readonly getProductItemsUsecase: GetProductItemsUsecase,
   ) {}
   @Post()
   @ApiResponse({
@@ -61,6 +63,23 @@ export class ProductItemController {
       const productItem = await this.getProductItemByIdUsecase.execute(id);
 
       return ProductItemPresenter.fromProductItemEntity(productItem);
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Get()
+  @ApiResponse({
+    status: 200,
+    type: ProductItemPresenter,
+    isArray: true,
+  })
+  async getProductItems() {
+    try {
+      const productItems = await this.getProductItemsUsecase.execute();
+      return productItems.map((productItem) =>
+        ProductItemPresenter.fromProductItemEntity(productItem),
+      );
     } catch (error) {
       HandleExeption(error);
     }
