@@ -14,10 +14,10 @@ export class ProductItemQuantityStateRuleEntity extends Entity {
   @IsString()
   stateName: string;
   @IsInt()
-  @Min(1)
+  @Min(0)
   minVal: number;
   @IsInt()
-  @IsLargerThan('minVal', {
+  @IsLargerThanOrEqual('minVal', {
     message: 'Max val must be larger than min val',
   })
   maxVal: number;
@@ -40,14 +40,14 @@ export class ProductItemQuantityStateRuleEntity extends Entity {
   }
 }
 
-export function IsLargerThan(
+export function IsLargerThanOrEqual(
   property: string,
   validationOptions?: ValidationOptions,
 ) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: 'isLargerThan',
+      name: 'isLargerThanOrEqual',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [property],
@@ -59,7 +59,7 @@ export function IsLargerThan(
           return (
             typeof value === 'number' &&
             typeof relatedValue === 'number' &&
-            value > relatedValue
+            value >= relatedValue
           );
         },
       },
