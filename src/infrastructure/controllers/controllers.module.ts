@@ -3,6 +3,8 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthUsecasesModule } from 'src/usecases/auth/auth.usecases.module';
 import { DeliveryNoteUsecasesModule } from 'src/usecases/delivery-note/delivery-note.usecases.module';
 import { InvoiceUsecasesModule } from 'src/usecases/invoice/invoice.usecases.module';
+import { GetProductItemExpireStateRulesUsecase } from 'src/usecases/product-item-expire-state-rule/get-product-item-expire-state-rules.usecase';
+import { ProductItemExpireStateRuleUsecasesModule } from 'src/usecases/product-item-expire-state-rule/product-item-expire-state-rule.usecases.module';
 import { ProductItemQuantityStateRuleUsecasesModule } from 'src/usecases/product-item-quantity-state-rule/product-item-quantity-state-rule.usecases.module';
 import { ProductItemUsecasesModule } from 'src/usecases/product-item/product-item.usecases.module';
 import { ProductUsecasesModule } from 'src/usecases/product/product.usecases.module';
@@ -13,6 +15,7 @@ import { AuthController } from './auth/auth.controller';
 import { DeliveryNoteController } from './delivery-note/delivery-note.controller';
 import { ImageController } from './image/image.controller';
 import { InvoiceController } from './invoice/invoice.controller';
+import { ProductItemExpireStateRuleController } from './product-item-expire-state-rule/product-item-expire-state.controller';
 import { ProductItemQuantityStateRuleController } from './product-item-quantity-state-rule/product-item-quantity-state.controller';
 import { ProductItemController } from './product-item/product-item.controller';
 import { ProductController } from './product/product.controller';
@@ -30,6 +33,7 @@ import { UserController } from './user/user.controller';
     ProductItemUsecasesModule,
     ProductItemQuantityStateRuleUsecasesModule,
     InvoiceUsecasesModule,
+    ProductItemExpireStateRuleUsecasesModule,
   ],
   controllers: [
     UserController,
@@ -41,6 +45,7 @@ import { UserController } from './user/user.controller';
     ProductItemController,
     ProductItemQuantityStateRuleController,
     InvoiceController,
+    ProductItemExpireStateRuleController,
   ],
   providers: [LocalStrategy],
 })
