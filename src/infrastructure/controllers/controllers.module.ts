@@ -9,6 +9,7 @@ import { ProductItemQuantityStateRuleUsecasesModule } from 'src/usecases/product
 import { ProductItemUsecasesModule } from 'src/usecases/product-item/product-item.usecases.module';
 import { ProductUsecasesModule } from 'src/usecases/product/product.usecases.module';
 import { ProviderUsecasesModule } from 'src/usecases/provider/provider.usecases.module';
+import { ReportUsecasesModule } from 'src/usecases/report/report.usecases.module';
 import { UserUsecasesModule } from 'src/usecases/user/user.usecases.module';
 import { LocalStrategy } from '../common/strategies/local.strategy';
 import { AuthController } from './auth/auth.controller';
@@ -20,6 +21,7 @@ import { ProductItemQuantityStateRuleController } from './product-item-quantity-
 import { ProductItemController } from './product-item/product-item.controller';
 import { ProductController } from './product/product.controller';
 import { ProviderController } from './provider/provider.controller';
+import { ReportController } from './report/report.controller';
 import { UserController } from './user/user.controller';
 
 @Module({
@@ -34,6 +36,7 @@ import { UserController } from './user/user.controller';
     ProductItemQuantityStateRuleUsecasesModule,
     InvoiceUsecasesModule,
     ProductItemExpireStateRuleUsecasesModule,
+    ReportUsecasesModule,
   ],
   controllers: [
     UserController,
@@ -46,6 +49,7 @@ import { UserController } from './user/user.controller';
     ProductItemQuantityStateRuleController,
     InvoiceController,
     ProductItemExpireStateRuleController,
+    ReportController,
   ],
   providers: [LocalStrategy],
 })

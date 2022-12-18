@@ -29,8 +29,8 @@ export class InvoiceConverter {
         create: invoice.invoiceDetails.map((detail) => {
           return {
             productItemId: detail.productItem.id,
-            price: detail.productItem.price,
-            quantity: detail.productItem.quantity,
+            price: detail.price,
+            quantity: detail.quantity,
           };
         }),
       },
