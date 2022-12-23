@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -65,15 +66,16 @@ model Product {
 }
 
 model DeliveryNote {
-  id           Int           @id @default(autoincrement())
-  provider     Provider      @relation(fields: [providerId], references: [id])
-  providerId   Int
-  date         DateTime
-  total        Int
-  productItems ProductItem[]
-  creator      User          @relation(fields: [userId], references: [id])
-  userId       Int
-  shipper      String
+  id            Int           @id @default(autoincrement())
+  provider      Provider      @relation(fields: [providerId], references: [id])
+  providerId    Int
+  date          DateTime
+  total         Int
+  productItems  ProductItem[]
+  creator       User          @relation(fields: [userId], references: [id])
+  userId        Int
+  shipper       String
+  totalQuantity Int           @default(0)
 }
 
 model ProductItem {
