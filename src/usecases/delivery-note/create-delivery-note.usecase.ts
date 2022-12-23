@@ -6,6 +6,7 @@ import {
   IDeliveryNoteRepositoryLabel,
 } from 'src/core/repositories/delivery-note.repository.interface';
 import { GetProviderByIdUsecase } from '../provider/get-provider-by-id.usecase';
+import { GetUserByIdUsecase } from '../user/get-users-by-id.usecase';
 
 @Injectable()
 export class CreateDeliveryNoteUsecase {
@@ -13,10 +14,25 @@ export class CreateDeliveryNoteUsecase {
     @Inject(IDeliveryNoteRepositoryLabel)
     private readonly deliveryNoteRepository: IDeliveryNoteRepository,
     private readonly getProviderByIdUsecase: GetProviderByIdUsecase,
+    private readonly getUserByIdUsecase: GetUserByIdUsecase,
   ) {}
-  async execute(providerId: number, date: Date): Promise<DeliveryNoteEntity> {
+  async execute(
+    providerId: number,
+    date: Date,
+    creatorId: number,
+    shipper: string,
+  ): Promise<DeliveryNoteEntity> {
     const provider = await this.getProviderByIdUsecase.execute(providerId);
-    const deliveryNote = new DeliveryNoteEntity(0, 0, provider, date);
+    const creator = await this.getUserByIdUsecase.execute(creatorId);
+    const deliveryNote = new DeliveryNoteEntity(
+      0,
+      0,
+      provider,
+      date,
+      creator,
+      shipper,
+      0,
+    );
     const errors = await deliveryNote.validateData();
     if (errors && errors.length > 0) {
       throw new CoreException.ValidationException('Invalid data', errors);

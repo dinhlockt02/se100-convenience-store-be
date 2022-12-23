@@ -44,6 +44,7 @@ export class InvoiceRepository implements IInvoiceRepository {
                   deliveryNote: {
                     include: {
                       provider: true,
+                      creator: true,
                     },
                   },
                   product: true,
@@ -75,6 +76,7 @@ export class InvoiceRepository implements IInvoiceRepository {
                   deliveryNote: {
                     include: {
                       provider: true,
+                      creator: true,
                     },
                   },
                   product: true,

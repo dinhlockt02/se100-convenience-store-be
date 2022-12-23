@@ -26,6 +26,7 @@ model User {
   avatar             String
   role               Role
   Invoice            Invoice[]
+  DeliveryNote       DeliveryNote[]
 }
 
 enum Gender {
@@ -70,6 +71,9 @@ model DeliveryNote {
   date         DateTime
   total        Int
   productItems ProductItem[]
+  creator      User          @relation(fields: [userId], references: [id])
+  userId       Int
+  shipper      String
 }
 
 model ProductItem {

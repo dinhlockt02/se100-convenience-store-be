@@ -3,6 +3,7 @@ import { DeliveryNoteEntity } from 'src/core/entities/delivery-note.entity';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { ProductPresenter } from '../product/product.presenter';
 import { ProviderPresenter } from '../provider/provider.presenter';
+import { UserPresenter } from '../user/user.presenter';
 
 class ProductItemState {
   @ApiProperty()
@@ -70,6 +71,12 @@ export class DeliveryNotePresenterNoProductItems {
   date: Date;
   @ApiProperty()
   total: number;
+  @ApiProperty()
+  shipper: string;
+  @ApiProperty()
+  creator: UserPresenter;
+  @ApiProperty()
+  totalQuantity: number;
 
   static fromDeliveryNoteEntity(
     deliveryNote: DeliveryNoteEntity,
@@ -79,6 +86,9 @@ export class DeliveryNotePresenterNoProductItems {
       provider: ProviderPresenter.fromEntity(deliveryNote.provider),
       date: deliveryNote.date,
       total: deliveryNote.total,
+      shipper: deliveryNote.shipper,
+      creator: new UserPresenter(deliveryNote.creator),
+      totalQuantity: deliveryNote.totalQuantity,
     };
   }
 }
@@ -92,6 +102,8 @@ export class DeliveryNotePresenter {
   date: Date;
   @ApiProperty()
   total: number;
+  @ApiProperty()
+  creator: UserPresenter;
   @ApiProperty({ isArray: true, type: DeliveryNoteProductItemPresenter })
   productItems: DeliveryNoteProductItemPresenter[];
 
@@ -106,6 +118,7 @@ export class DeliveryNotePresenter {
       productItems: deliveryNote.productItems.map((productItem) =>
         DeliveryNoteProductItemPresenter.fromProductItemEntity(productItem),
       ),
+      creator: new UserPresenter(deliveryNote.creator),
     };
   }
 }
