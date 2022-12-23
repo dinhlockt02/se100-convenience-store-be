@@ -1,3 +1,4 @@
+import { ProductEntity } from '../entities/product.entity';
 import { ProviderEntity } from '../entities/provider.entity';
 
 export interface IProviderRepository {
@@ -6,6 +7,12 @@ export interface IProviderRepository {
   getProvider(id: number): Promise<ProviderEntity>;
   updateProvider(provider: ProviderEntity): Promise<ProviderEntity>;
   deleteProvider(id: number);
+  addProduct(providerId: number, productId: string): Promise<ProductEntity[]>;
+  getProducts(providerId: number): Promise<ProductEntity[]>;
+  removeProduct(
+    providerId: number,
+    productId: string,
+  ): Promise<ProductEntity[]>;
 }
 
 export const IProviderRepositoryLabel = 'IProviderRepositoryLabel';
