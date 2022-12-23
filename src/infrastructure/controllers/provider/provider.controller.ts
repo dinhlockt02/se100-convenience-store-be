@@ -52,6 +52,8 @@ export class ProviderController {
         createProviderDto.name,
         createProviderDto.address,
         createProviderDto.email,
+        createProviderDto.phone,
+        createProviderDto.representative,
       );
       return ProviderPresenter.fromEntity(provider);
     } catch (error) {
@@ -112,6 +114,8 @@ export class ProviderController {
         updateProviderDto.name,
         updateProviderDto.address,
         updateProviderDto.email,
+        updateProviderDto.phone,
+        updateProviderDto.representative,
       );
       return ProviderPresenter.fromEntity(provider);
     } catch (error) {

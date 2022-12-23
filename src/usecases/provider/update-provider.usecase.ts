@@ -20,10 +20,18 @@ export class UpdateProviderUsecase {
     name: string,
     address: string,
     email: string,
+    phone: string,
+    representative: string,
   ): Promise<ProviderEntity> {
     let providerEntity = await this.getProviderByIdUsecase.execute(id);
 
-    providerEntity = providerEntity.copyWith(name, address, email);
+    providerEntity = providerEntity.copyWith(
+      name,
+      address,
+      email,
+      phone,
+      representative,
+    );
 
     const validationErrors = await providerEntity.validateData();
     if (validationErrors && validationErrors.length > 0) {

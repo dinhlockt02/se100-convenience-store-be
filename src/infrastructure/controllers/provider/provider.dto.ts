@@ -7,4 +7,8 @@ export class CreateProviderDto {
   email: string;
   @ApiProperty({ required: true })
   address: string;
+  @ApiProperty({ required: true, example: '0123456789' })
+  phone: string;
+  @ApiProperty({ required: true, example: 'John Doe' })
+  representative: string;
 }

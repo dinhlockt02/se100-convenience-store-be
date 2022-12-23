@@ -29,6 +29,8 @@ export class ProviderConverter {
       provider.name,
       provider.address,
       provider.email,
+      provider.phone,
+      provider.representative,
     );
   }
 }
