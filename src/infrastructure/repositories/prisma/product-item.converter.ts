@@ -4,6 +4,7 @@ import {
   Product,
   ProductItem,
   Provider,
+  User,
 } from '@prisma/client';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { DeliveryNoteConverter } from './delivery-note.converter';
@@ -38,7 +39,7 @@ export class ProductItemConverter {
   static toProductItemEntity(
     productItem: ProductItem & {
       product: Product;
-      deliveryNote: DeliveryNote & { provider: Provider };
+      deliveryNote: DeliveryNote & { provider: Provider; creator: User };
     },
   ): ProductItemEntity {
     if (!productItem) {

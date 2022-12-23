@@ -7,4 +7,8 @@ export class DeliveryNoteDto {
   @Type(() => Date)
   @ApiProperty({ required: true })
   date: Date;
+  @ApiProperty({ required: true })
+  creatorId: number;
+  @ApiProperty({ required: true })
+  shipper: string;
 }

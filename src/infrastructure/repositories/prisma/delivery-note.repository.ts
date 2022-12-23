@@ -17,6 +17,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
         data: DeliveryNoteConverter.toDeliveryNoteCreateInput(deliveryNote),
         include: {
           provider: true,
+          creator: true,
         },
       });
       return DeliveryNoteConverter.toDeliveryNoteEntity(createdDeliveryNote);
@@ -29,6 +30,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
     const deliveryNotes = await this.prisma.deliveryNote.findMany({
       include: {
         provider: true,
+        creator: true,
       },
     });
     return deliveryNotes.map((deliveryNote) =>
@@ -42,6 +44,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
       },
       include: {
         provider: true,
+        creator: true,
       },
     });
     return DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote);

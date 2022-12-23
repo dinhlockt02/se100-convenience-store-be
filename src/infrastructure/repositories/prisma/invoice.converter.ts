@@ -57,7 +57,7 @@ export class InvoiceConverter {
       InvoiceDetail: (InvoiceDetail & {
         productItem: ProductItem & {
           product: Product;
-          deliveryNote: DeliveryNote & { provider: Provider };
+          deliveryNote: DeliveryNote & { provider: Provider; creator: User };
         };
       })[];
     },

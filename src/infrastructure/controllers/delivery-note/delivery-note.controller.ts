@@ -54,6 +54,8 @@ export class DeliveryNoteController {
       const createdDeliveryNote = await this.createDeliveryNoteUsecase.execute(
         deliveryNoteDto.providerId,
         deliveryNoteDto.date,
+        deliveryNoteDto.creatorId,
+        deliveryNoteDto.shipper,
       );
       return DeliveryNotePresenter.fromDeliveryNoteEntity(createdDeliveryNote);
     } catch (error) {

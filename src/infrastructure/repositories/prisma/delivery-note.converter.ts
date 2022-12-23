@@ -1,6 +1,7 @@
-import { DeliveryNote, Prisma, Provider } from '@prisma/client';
+import { DeliveryNote, Prisma, Provider, User } from '@prisma/client';
 import { DeliveryNoteEntity } from 'src/core/entities/delivery-note.entity';
 import { ProviderConverter } from './provider.converter';
+import { UserConverter } from './user.converter';
 
 export class DeliveryNoteConverter {
   static toDeliveryNoteCreateInput(
@@ -14,10 +15,16 @@ export class DeliveryNoteConverter {
       },
       date: deliveryNote.date,
       total: deliveryNote.total,
+      shipper: deliveryNote.shipper,
+      creator: {
+        connect: {
+          id: deliveryNote.creator.id,
+        },
+      },
     };
   }
   static toDeliveryNoteEntity(
-    deliveryNote: DeliveryNote & { provider: Provider },
+    deliveryNote: DeliveryNote & { provider: Provider; creator: User },
   ): DeliveryNoteEntity {
     if (!deliveryNote) {
       return null;
@@ -27,6 +34,9 @@ export class DeliveryNoteConverter {
       deliveryNote.total,
       ProviderConverter.fromPrismaProvider(deliveryNote.provider),
       deliveryNote.date,
+      UserConverter.toEntity(deliveryNote.creator),
+      deliveryNote.shipper,
+      0,
     );
     return entity;
   }

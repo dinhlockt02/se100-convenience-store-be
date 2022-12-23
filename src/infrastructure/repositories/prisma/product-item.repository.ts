@@ -16,6 +16,7 @@ export class ProductItemRepository implements IProductItemRepository {
         deliveryNote: {
           include: {
             provider: true,
+            creator: true,
           },
         },
         product: true,
@@ -34,6 +35,7 @@ export class ProductItemRepository implements IProductItemRepository {
         deliveryNote: {
           include: {
             provider: true,
+            creator: true,
           },
         },
         product: true,
@@ -52,6 +54,7 @@ export class ProductItemRepository implements IProductItemRepository {
         deliveryNote: {
           include: {
             provider: true,
+            creator: true,
           },
         },
         product: true,
@@ -71,6 +74,7 @@ export class ProductItemRepository implements IProductItemRepository {
           deliveryNote: {
             include: {
               provider: true,
+              creator: true,
             },
           },
           product: true,
