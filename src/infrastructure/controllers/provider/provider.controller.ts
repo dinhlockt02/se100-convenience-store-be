@@ -17,11 +17,15 @@ import {
   apiResponseInternalServerOptions,
   HandleExeption,
 } from 'src/infrastructure/common/exception/handler';
+import { AddProductToProviderUsecase } from 'src/usecases/provider/add-product-to-provider.usecase';
 import { CreateProviderUsecase } from 'src/usecases/provider/create-provider.usecase';
 import { DeleteProviderUsecase } from 'src/usecases/provider/delete-provider.usecase';
+import { GetProductByProviderIdUsecase } from 'src/usecases/provider/get-products-by-provider-id.usecase';
 import { GetProviderByIdUsecase } from 'src/usecases/provider/get-provider-by-id.usecase';
 import { GetProvidersUsecase } from 'src/usecases/provider/get-providers.usecase';
+import { RemoveProductFromProviderUsecase } from 'src/usecases/provider/remove-product-from-provider.usecase';
 import { UpdateProviderUsecase } from 'src/usecases/provider/update-provider.usecase';
+import { ProductPresenter } from '../product/product.presenter';
 import { CreateProviderDto as ProviderDto } from './provider.dto';
 import { ProviderPresenter } from './provider.presenter';
 
@@ -39,7 +43,57 @@ export class ProviderController {
     private readonly getProviderByIdUsecase: GetProviderByIdUsecase,
     private readonly deleteProviderUsecase: DeleteProviderUsecase,
     private readonly updateProviderUsecase: UpdateProviderUsecase,
+    private readonly addProductToProviderUsecase: AddProductToProviderUsecase,
+    private readonly removeProductFromProviderUsecase: RemoveProductFromProviderUsecase,
+    private readonly getProductsByProviderIdUsecase: GetProductByProviderIdUsecase,
   ) {}
+
+  @Get('products/:providerId')
+  @ApiResponse({ status: 200, type: ProductPresenter, isArray: true })
+  async getProducts(@Param('providerId', ParseIntPipe) providerId: number) {
+    try {
+      const products = await this.getProductsByProviderIdUsecase.execute(
+        providerId,
+      );
+      return products.map((product) => new ProductPresenter(product));
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Post('products/:providerId/:productId')
+  @ApiResponse({ status: 201, type: ProductPresenter, isArray: true })
+  async addProduct(
+    @Param('providerId', ParseIntPipe) providerId: number,
+    @Param('productId') productId: string,
+  ) {
+    try {
+      const products = await this.addProductToProviderUsecase.execute(
+        providerId,
+        productId,
+      );
+      return products.map((product) => new ProductPresenter(product));
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Delete('products/:providerId/:productId')
+  @ApiResponse({ status: 200, type: ProductPresenter, isArray: true })
+  async removeProduct(
+    @Param('providerId', ParseIntPipe) providerId: number,
+    @Param('productId') productId: string,
+  ) {
+    try {
+      const products = await this.removeProductFromProviderUsecase.execute(
+        providerId,
+        productId,
+      );
+      return products.map((product) => new ProductPresenter(product));
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
 
   @Post()
   @ApiBody({

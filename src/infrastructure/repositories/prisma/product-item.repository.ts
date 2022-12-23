@@ -90,7 +90,7 @@ export class ProductItemRepository implements IProductItemRepository {
               increment: productItem.initialQuantity,
             },
             total: {
-              increment: productItem.price * productItem.initialQuantity,
+              increment: productItem.cost * productItem.initialQuantity,
             },
           },
         }),
@@ -117,7 +117,7 @@ export class ProductItemRepository implements IProductItemRepository {
               decrement: productItem.initialQuantity,
             },
             total: {
-              decrement: productItem.price * productItem.initialQuantity,
+              decrement: productItem.cost * productItem.initialQuantity,
             },
           },
         });
