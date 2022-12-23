@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Provider` ADD COLUMN `phone` VARCHAR(191) NOT NULL DEFAULT '',
+    ADD COLUMN `representative` VARCHAR(191) NOT NULL DEFAULT '';

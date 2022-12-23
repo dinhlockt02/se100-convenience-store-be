@@ -17,8 +17,17 @@ export class CreateProviderUsecase {
     name: string,
     address: string,
     email: string,
+    phone: string,
+    representative: string,
   ): Promise<ProviderEntity> {
-    const providerEntity = new ProviderEntity(0, name, address, email);
+    const providerEntity = new ProviderEntity(
+      0,
+      name,
+      address,
+      email,
+      phone,
+      representative,
+    );
 
     const validationErrors = await providerEntity.validateData();
     if (validationErrors && validationErrors.length > 0) {

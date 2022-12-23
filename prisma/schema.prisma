@@ -49,12 +49,14 @@ model ResetPasswordToken {
 // Product related models
 
 model Provider {
-  id            Int            @id @default(autoincrement())
-  name          String
-  address       String
-  email         String
-  products      Product[]      @relation()
-  deliveryNotes DeliveryNote[]
+  id             Int            @id @default(autoincrement())
+  name           String
+  address        String
+  email          String
+  products       Product[]      @relation()
+  deliveryNotes  DeliveryNote[]
+  phone          String         @default("")
+  representative String         @default("")
 }
 
 model Product {
