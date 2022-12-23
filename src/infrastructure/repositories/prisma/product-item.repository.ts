@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import e from 'express';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { CoreException } from 'src/core/exceptions';
@@ -68,18 +68,33 @@ export class ProductItemRepository implements IProductItemRepository {
     productItem: ProductItemEntity,
   ): Promise<ProductItemEntity> {
     try {
-      const createdProductItem = await this.prisma.productItem.create({
-        data: ProductItemConverter.toProductItemreateInput(productItem),
-        include: {
-          deliveryNote: {
-            include: {
-              provider: true,
-              creator: true,
+      const [createdProductItem] = await this.prisma.$transaction([
+        this.prisma.productItem.create({
+          data: ProductItemConverter.toProductItemreateInput(productItem),
+          include: {
+            deliveryNote: {
+              include: {
+                provider: true,
+                creator: true,
+              },
+            },
+            product: true,
+          },
+        }),
+        this.prisma.deliveryNote.update({
+          where: {
+            id: productItem.deliveryNote.id,
+          },
+          data: {
+            totalQuantity: {
+              increment: productItem.initialQuantity,
+            },
+            total: {
+              increment: productItem.price * productItem.initialQuantity,
             },
           },
-          product: true,
-        },
-      });
+        }),
+      ]);
       return ProductItemConverter.toProductItemEntity(createdProductItem);
     } catch (error) {
       throw new CoreException.DatabaseException(error);
@@ -87,10 +102,25 @@ export class ProductItemRepository implements IProductItemRepository {
   }
   async deleteProductItem(productItemId: string) {
     try {
-      await this.prisma.productItem.delete({
-        where: {
-          id: productItemId,
-        },
+      await this.prisma.$transaction(async (tx) => {
+        const productItem = await tx.productItem.delete({
+          where: {
+            id: productItemId,
+          },
+        });
+        await this.prisma.deliveryNote.update({
+          where: {
+            id: productItem.deliveryNoteId,
+          },
+          data: {
+            totalQuantity: {
+              decrement: productItem.initialQuantity,
+            },
+            total: {
+              decrement: productItem.price * productItem.initialQuantity,
+            },
+          },
+        });
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

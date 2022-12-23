@@ -106,6 +106,8 @@ export class DeliveryNotePresenter {
   creator: UserPresenter;
   @ApiProperty({ isArray: true, type: DeliveryNoteProductItemPresenter })
   productItems: DeliveryNoteProductItemPresenter[];
+  @ApiProperty()
+  totalQuantity: number;
 
   static fromDeliveryNoteEntity(
     deliveryNote: DeliveryNoteEntity,
@@ -119,6 +121,7 @@ export class DeliveryNotePresenter {
         DeliveryNoteProductItemPresenter.fromProductItemEntity(productItem),
       ),
       creator: new UserPresenter(deliveryNote.creator),
+      totalQuantity: deliveryNote.totalQuantity,
     };
   }
 }

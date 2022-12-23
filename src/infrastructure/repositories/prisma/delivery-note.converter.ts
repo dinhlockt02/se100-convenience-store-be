@@ -36,7 +36,7 @@ export class DeliveryNoteConverter {
       deliveryNote.date,
       UserConverter.toEntity(deliveryNote.creator),
       deliveryNote.shipper,
-      0,
+      deliveryNote.totalQuantity,
     );
     return entity;
   }
