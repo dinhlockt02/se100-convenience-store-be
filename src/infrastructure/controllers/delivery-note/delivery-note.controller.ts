@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { CreateProductItemDto } from 'src/core/repositories/delivery-note.repository.interface';
 import {
   apiResponseBadRequestOptions,
   apiResponseConflictOptions,
@@ -56,6 +57,18 @@ export class DeliveryNoteController {
         deliveryNoteDto.date,
         deliveryNoteDto.creatorId,
         deliveryNoteDto.shipper,
+        deliveryNoteDto.productItems.map<CreateProductItemDto>((item) => {
+          return {
+            productId: item.productId,
+            MFG: item.MFG,
+            EXP: item.EXP,
+            cost: item.cost,
+            price: item.price,
+            quantity: item.quantity,
+            description: item.description,
+            image: item.image,
+          };
+        }),
       );
       return DeliveryNotePresenter.fromDeliveryNoteEntity(createdDeliveryNote);
     } catch (error) {

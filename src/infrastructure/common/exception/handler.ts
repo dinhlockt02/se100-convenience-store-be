@@ -4,6 +4,7 @@ import {
   BadRequestException,
   ConflictException,
   InternalServerErrorException,
+  NotImplementedException,
 } from '@nestjs/common';
 import { ApiResponseOptions } from '@nestjs/swagger';
 import { CoreException } from 'src/core/exceptions';
@@ -20,6 +21,9 @@ export const HandleExeption = (err: CoreException.BussinessException) => {
   }
   if (err instanceof CoreException.ConflictException) {
     throw new ConflictException(err.message);
+  }
+  if (err instanceof CoreException.NotImplemented) {
+    throw new NotImplementedException();
   }
   throw new InternalServerErrorException(err.message);
 };

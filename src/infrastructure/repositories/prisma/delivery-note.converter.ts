@@ -1,5 +1,6 @@
 import { DeliveryNote, Prisma, Provider, User } from '@prisma/client';
 import { DeliveryNoteEntity } from 'src/core/entities/delivery-note.entity';
+import { CreateProductItemDto } from 'src/core/repositories/delivery-note.repository.interface';
 import { ProviderConverter } from './provider.converter';
 import { UserConverter } from './user.converter';
 
@@ -39,5 +40,23 @@ export class DeliveryNoteConverter {
       deliveryNote.totalQuantity,
     );
     return entity;
+  }
+
+  static toProductItemCreateInput(
+    productItem: CreateProductItemDto,
+    deliveryNoteId: number,
+  ): Prisma.ProductItemCreateManyInput {
+    return {
+      productId: productItem.productId,
+      deliveryNoteId: deliveryNoteId,
+      MFG: productItem.MFG,
+      EXP: productItem.EXP,
+      cost: productItem.cost,
+      price: productItem.price,
+      quantity: productItem.quantity,
+      initialQuantity: productItem.quantity,
+      description: productItem.description,
+      image: productItem.image,
+    };
   }
 }
