@@ -32,6 +32,9 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
         provider: true,
         creator: true,
       },
+      orderBy: {
+        date: 'desc',
+      },
     });
     return deliveryNotes.map((deliveryNote) =>
       DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote),

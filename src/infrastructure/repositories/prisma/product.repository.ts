@@ -145,7 +145,11 @@ export class ProductRepository implements IProductRepository {
   }
   async getProducts(): Promise<ProductEntity[]> {
     try {
-      const products = await this.prisma.product.findMany();
+      const products = await this.prisma.product.findMany({
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      });
       return products.map((product) =>
         ProductConverter.fromPrismaProduct(product),
       );

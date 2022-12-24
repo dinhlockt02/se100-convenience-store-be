@@ -9,7 +9,11 @@ export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async getUsers(): Promise<UserEntity[]> {
-    const prismaUsers = await this.prisma.user.findMany();
+    const prismaUsers = await this.prisma.user.findMany({
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
     return prismaUsers.map((prismaUser) => UserConverter.toEntity(prismaUser));
   }
   async updateUser(updatedUser: UserEntity): Promise<UserEntity> {

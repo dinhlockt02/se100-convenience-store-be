@@ -21,6 +21,9 @@ export class ProductItemRepository implements IProductItemRepository {
         },
         product: true,
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
     return productItems.map((productItem) =>
       ProductItemConverter.toProductItemEntity(productItem),
