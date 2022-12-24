@@ -26,15 +26,17 @@ export class ProviderRepository implements IProviderRepository {
   }
   async addProduct(
     providerId: number,
-    productId: string,
+    productId: string[],
   ): Promise<ProductEntity[]> {
     try {
       const products = await this.prisma.$transaction(async (tx) => {
-        await tx.providersOnProducts.create({
-          data: {
-            productId: productId,
-            providerId: providerId,
-          },
+        await tx.providersOnProducts.createMany({
+          data: productId.map((id) => {
+            return {
+              productId: id,
+              providerId: providerId,
+            };
+          }),
         });
         return await tx.$queryRaw<Product[]>`
         SELECT Product.id as id, Product.tax as tax, Product.title as title
@@ -49,24 +51,32 @@ export class ProviderRepository implements IProviderRepository {
         ProductConverter.fromPrismaProduct(product),
       );
     } catch (error) {
+      if (error.code == 'P2025') {
+        throw new CoreException.ConflictException(
+          'Product has not been added.',
+        );
+      }
       if (error.code == 'P2002') {
         throw new CoreException.ConflictException('Product has been added.');
+      }
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Product not found');
       }
       throw new CoreException.DatabaseException('Add product failed');
     }
   }
   async removeProduct(
     providerId: number,
-    productId: string,
+    productId: string[],
   ): Promise<ProductEntity[]> {
     try {
       const products = await this.prisma.$transaction(async (tx) => {
-        await tx.providersOnProducts.delete({
+        await tx.providersOnProducts.deleteMany({
           where: {
-            providerId_productId: {
-              productId: productId,
-              providerId: providerId,
+            productId: {
+              in: productId,
             },
+            providerId: providerId,
           },
         });
         return await tx.$queryRaw<Product[]>`
@@ -87,6 +97,13 @@ export class ProviderRepository implements IProviderRepository {
           'Product has not been added.',
         );
       }
+      if (error.code == 'P2002') {
+        throw new CoreException.ConflictException('Product has been added.');
+      }
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Product not found');
+      }
+
       throw new CoreException.DatabaseException(error.code);
     }
   }

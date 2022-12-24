@@ -14,7 +14,7 @@ export class RemoveProviderFromProductUsecase {
   ) {}
 
   async execute(
-    providerId: number,
+    providerId: number[],
     productId: string,
   ): Promise<ProviderEntity[]> {
     return await this.productRepository.removeProvider(providerId, productId);
