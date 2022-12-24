@@ -53,6 +53,9 @@ export class InvoiceRepository implements IInvoiceRepository {
             },
           },
         },
+        orderBy: {
+          date: 'desc',
+        },
       });
       return prismaInvoices.map((prismaInvoice) =>
         InvoiceConverter.toInvoiceEntityWithInvoiceDetail(prismaInvoice),

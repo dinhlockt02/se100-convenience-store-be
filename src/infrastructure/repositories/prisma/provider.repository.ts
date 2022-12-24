@@ -110,6 +110,9 @@ export class ProviderRepository implements IProviderRepository {
         include: {
           products: true,
         },
+        orderBy: {
+          updatedAt: 'desc',
+        },
       });
       return providers.map(
         (
