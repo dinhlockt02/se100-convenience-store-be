@@ -15,3 +15,4 @@ export class UnauthotizedException extends BussinessException {}
 
 export class NotFoundException extends BussinessException {}
 export class DatabaseException extends BussinessException {}
+export class NotImplemented extends BussinessException {}

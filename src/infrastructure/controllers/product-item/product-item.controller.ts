@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   apiResponseBadRequestOptions,
   apiResponseConflictOptions,
@@ -44,6 +44,7 @@ export class ProductItemController {
     status: 201,
     type: ProductItemPresenter,
   })
+  @ApiOperation({ deprecated: true })
   async addProductItem(@Body() productItemDto: ProductItemDto) {
     try {
       const addedProductItem = await this.addProductItemUsecase.execute(
@@ -118,6 +119,7 @@ export class ProductItemController {
   }
 
   @Delete(':id')
+  @ApiOperation({ deprecated: true })
   @ApiResponse({
     status: 200,
   })

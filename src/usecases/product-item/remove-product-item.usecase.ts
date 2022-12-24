@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { CoreException } from 'src/core/exceptions';
 import {
   IProductItemRepositoryLabel,
   IProductItemRepository,
