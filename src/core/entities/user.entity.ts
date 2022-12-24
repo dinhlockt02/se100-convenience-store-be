@@ -44,4 +44,5 @@ export class UserEntity extends Entity {
   avatar: string;
   @IsEnum(Role)
   role: Role;
+  updatedAt: Date;
 }

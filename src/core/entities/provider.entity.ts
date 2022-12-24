@@ -26,6 +26,7 @@ export class ProviderEntity extends Entity {
   phone: string;
   @IsString()
   representative: string;
+  updatedAt: Date;
 
   constructor(
     id: number,
@@ -34,6 +35,7 @@ export class ProviderEntity extends Entity {
     email: string,
     phone: string,
     representative: string,
+    updatedAt: Date,
   ) {
     super();
     this.id = id;
@@ -44,6 +46,7 @@ export class ProviderEntity extends Entity {
     this.deliveryNotes = [];
     this.phone = phone;
     this.representative = representative;
+    this.updatedAt = updatedAt;
   }
 
   copyWith(
@@ -52,6 +55,7 @@ export class ProviderEntity extends Entity {
     email: string,
     phone: string,
     representative: string,
+    updatedAt: Date,
   ): ProviderEntity {
     return new ProviderEntity(
       this.id,
@@ -60,6 +64,7 @@ export class ProviderEntity extends Entity {
       email ?? this.email,
       phone ?? this.phone,
       representative ?? this.representative,
+      updatedAt ?? this.updatedAt,
     );
   }
 }

@@ -27,6 +27,7 @@ export class CreateProviderUsecase {
       email,
       phone,
       representative,
+      null,
     );
 
     const validationErrors = await providerEntity.validateData();

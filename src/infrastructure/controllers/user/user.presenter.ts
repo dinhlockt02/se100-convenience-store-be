@@ -24,6 +24,8 @@ export class UserPresenter {
   avatar: string;
   @ApiProperty({ required: true, enum: Role })
   role: Role;
+  @ApiProperty({ required: true })
+  updatedAt: Date;
 
   constructor(userEntity: UserEntity) {
     this.id = userEntity.id;
@@ -37,5 +39,6 @@ export class UserPresenter {
     this.other = userEntity.other;
     this.avatar = userEntity.avatar;
     this.role = userEntity.role;
+    this.updatedAt = userEntity.updatedAt;
   }
 }

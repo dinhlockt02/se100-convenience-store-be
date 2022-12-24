@@ -14,6 +14,8 @@ export class ProviderPresenter {
   phone: string;
   @ApiProperty({ required: true, example: 'John Doe' })
   representative: string;
+  @ApiProperty({ required: true })
+  updatedAt: Date;
   static fromEntity(providerEntity: ProviderEntity): ProviderPresenter {
     return {
       id: providerEntity.id,
@@ -22,6 +24,7 @@ export class ProviderPresenter {
       address: providerEntity.address,
       phone: providerEntity.phone,
       representative: providerEntity.representative,
+      updatedAt: providerEntity.updatedAt,
     };
   }
 }

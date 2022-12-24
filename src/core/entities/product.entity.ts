@@ -15,17 +15,24 @@ export class ProductEntity extends Entity {
   providers: ProviderEntity[];
   @IsArray()
   productItems: ProductItemEntity[];
+  updatedAt: Date;
 
-  constructor(id: string, title: string, tax: number) {
+  constructor(id: string, title: string, tax: number, updatedAt: Date) {
     super();
     this.id = id;
     this.title = title;
     this.tax = tax;
     this.providers = [];
     this.productItems = [];
+    this.updatedAt = updatedAt;
   }
 
   copyWith(title: string, tax: number): ProductEntity {
-    return new ProductEntity(this.id, title ?? this.title, tax ?? this.tax);
+    return new ProductEntity(
+      this.id,
+      title ?? this.title,
+      tax ?? this.tax,
+      this.updatedAt,
+    );
   }
 }

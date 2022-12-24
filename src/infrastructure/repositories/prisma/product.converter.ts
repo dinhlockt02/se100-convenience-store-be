@@ -22,6 +22,11 @@ export class ProductConverter {
     if (!product) {
       return null;
     }
-    return new ProductEntity(product.id, product.title, product.tax.toNumber());
+    return new ProductEntity(
+      product.id,
+      product.title,
+      product.tax.toNumber(),
+      product.updatedAt,
+    );
   }
 }

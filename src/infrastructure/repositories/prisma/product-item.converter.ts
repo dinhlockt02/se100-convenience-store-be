@@ -58,6 +58,7 @@ export class ProductItemConverter {
       productItem.description,
       productItem.image,
       [],
+      productItem.updatedAt,
     );
   }
 }

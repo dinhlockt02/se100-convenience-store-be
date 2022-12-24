@@ -33,6 +33,7 @@ export class ProductItemEntity extends Entity {
   invoiceDetails: InvoiceDetailEntity[];
   @IsArray()
   state: ProductItemStateEntity[];
+  updatedAt: Date;
 
   constructor(
     id: string,
@@ -47,6 +48,7 @@ export class ProductItemEntity extends Entity {
     description: string,
     image: string,
     state: ProductItemStateEntity[],
+    updatedAt: Date,
   ) {
     super();
     this.id = id;
@@ -62,5 +64,6 @@ export class ProductItemEntity extends Entity {
     this.image = image;
     this.invoiceDetails = [];
     this.state = state;
+    this.updatedAt = updatedAt;
   }
 }
