@@ -33,3 +33,15 @@ export class ProductItemDto {
   @ApiProperty({ required: true })
   image: string;
 }
+
+export class UpdateProductItemDto {
+  @IsInt()
+  @ApiProperty({ required: true })
+  price: number;
+  @IsString()
+  @ApiProperty({ required: true })
+  description: string;
+  @IsUrl()
+  @ApiProperty({ required: true })
+  image: string;
+}

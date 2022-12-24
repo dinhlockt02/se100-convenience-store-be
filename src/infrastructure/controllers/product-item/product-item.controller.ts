@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   apiResponseBadRequestOptions,
@@ -12,7 +20,8 @@ import { AddProductItemUsecase } from 'src/usecases/product-item/add-product-ite
 import { GetProductItemByIdUsecase } from 'src/usecases/product-item/get-product-item-by-id.usecase';
 import { GetProductItemsUsecase } from 'src/usecases/product-item/get-product-items.usecase';
 import { RemoveProductItemUsecase } from 'src/usecases/product-item/remove-product-item.usecase';
-import { ProductItemDto } from './product-item.dto';
+import { UpdateProductItemUsecase } from 'src/usecases/product-item/update-product-item.usecase';
+import { ProductItemDto, UpdateProductItemDto } from './product-item.dto';
 import { ProductItemPresenter } from './product-item.presenter';
 
 @Controller('/product-items')
@@ -28,6 +37,7 @@ export class ProductItemController {
     private readonly removeProductItemUsecase: RemoveProductItemUsecase,
     private readonly getProductItemByIdUsecase: GetProductItemByIdUsecase,
     private readonly getProductItemsUsecase: GetProductItemsUsecase,
+    private readonly updateProductItemUsecase: UpdateProductItemUsecase,
   ) {}
   @Post()
   @ApiResponse({
@@ -46,6 +56,28 @@ export class ProductItemController {
         productItemDto.quantity,
         productItemDto.description,
         productItemDto.image,
+      );
+      return ProductItemPresenter.fromProductItemEntity(addedProductItem);
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Put('/:productItemId')
+  @ApiResponse({
+    status: 200,
+    type: ProductItemPresenter,
+  })
+  async updateProductItem(
+    @Param('productItemId') id: string,
+    @Body() updateProductItemDto: UpdateProductItemDto,
+  ) {
+    try {
+      const addedProductItem = await this.updateProductItemUsecase.execute(
+        id,
+        updateProductItemDto.price,
+        updateProductItemDto.description,
+        updateProductItemDto.image,
       );
       return ProductItemPresenter.fromProductItemEntity(addedProductItem);
     } catch (error) {

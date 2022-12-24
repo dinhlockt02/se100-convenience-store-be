@@ -8,6 +8,7 @@ import { GetProductItemByDeliveryNoteUsecase } from './get-product-item-by-deliv
 import { GetProductItemByIdUsecase } from './get-product-item-by-id.usecase';
 import { GetProductItemsUsecase } from './get-product-items.usecase';
 import { RemoveProductItemUsecase } from './remove-product-item.usecase';
+import { UpdateProductItemUsecase } from './update-product-item.usecase';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RemoveProductItemUsecase } from './remove-product-item.usecase';
     GetProductItemByDeliveryNoteUsecase,
     GetProductItemByIdUsecase,
     GetProductItemsUsecase,
+    UpdateProductItemUsecase,
   ],
   exports: [
     AddProductItemUsecase,
@@ -29,6 +31,7 @@ import { RemoveProductItemUsecase } from './remove-product-item.usecase';
     GetProductItemByDeliveryNoteUsecase,
     GetProductItemByIdUsecase,
     GetProductItemsUsecase,
+    UpdateProductItemUsecase,
   ],
 })
 export class ProductItemUsecasesModule {}

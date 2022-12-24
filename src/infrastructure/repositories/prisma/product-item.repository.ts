@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
-import e from 'express';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { CoreException } from 'src/core/exceptions';
 import { IProductItemRepository } from 'src/core/repositories/product-item.repository.interface';
@@ -10,6 +9,32 @@ import { ProductItemConverter } from './product-item.converter';
 @Injectable()
 export class ProductItemRepository implements IProductItemRepository {
   constructor(private readonly prisma: PrismaService) {}
+  async updateProductItem(
+    productItem: ProductItemEntity,
+  ): Promise<ProductItemEntity> {
+    try {
+      const updatedProductItem = await this.prisma.productItem.update({
+        where: {
+          id: productItem.id,
+        },
+        data: {
+          price: productItem.price,
+          image: productItem.image,
+          description: productItem.description,
+        },
+        include: {
+          deliveryNote: {
+            include: {
+              provider: true,
+              creator: true,
+            },
+          },
+          product: true,
+        },
+      });
+      return ProductItemConverter.toProductItemEntity(updatedProductItem);
+    } catch (error) {}
+  }
   async getProductItems(): Promise<ProductItemEntity[]> {
     const productItems = await this.prisma.productItem.findMany({
       include: {
