@@ -1,4 +1,4 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   WeekReportEntity,
   MonthReportEntity,
@@ -23,11 +23,13 @@ export class ReportRepository implements IReportRepository {
         revenue: number;
         quantity: number;
         productId: string;
+        profit: number;
       }[]
     >`
       SELECT
       WEEK(DATE(${dateString}), 1) as week,
       SUM(InvoiceDetail.quantity * InvoiceDetail.price) as revenue,
+      SUM(InvoiceDetail.quantity * (InvoiceDetail.price - ProductItem.cost)) as profit,
       SUM(InvoiceDetail.quantity) as quantity, 
       ProductItem.productId AS productId
       FROM Invoice 
@@ -49,6 +51,7 @@ export class ReportRepository implements IReportRepository {
           ProductConverter.fromPrismaProduct(product),
           Number(r.revenue),
           Number(r.quantity),
+          Number(r.profit),
         );
         return reportEnitty;
       }),
@@ -64,10 +67,12 @@ export class ReportRepository implements IReportRepository {
         revenue: number;
         quantity: number;
         productId: string;
+        profit: number;
       }[]
     >`
     SELECT 
     SUM(InvoiceDetail.quantity * InvoiceDetail.price) as revenue,
+    SUM(InvoiceDetail.quantity * (InvoiceDetail.price - ProductItem.cost)) as profit,
     SUM(InvoiceDetail.quantity) as quantity, 
     ProductItem.productId AS productId
     FROM Invoice 
@@ -90,6 +95,7 @@ export class ReportRepository implements IReportRepository {
           ProductConverter.fromPrismaProduct(product),
           Number(r.revenue),
           Number(r.quantity),
+          Number(r.profit),
         );
         return reportEnitty;
       }),
@@ -102,11 +108,13 @@ export class ReportRepository implements IReportRepository {
         revenue: number;
         quantity: number;
         productId: string;
+        profit: number;
       }[]
     >`
     SELECT 
     SUM(InvoiceDetail.quantity * InvoiceDetail.price) as revenue,
     SUM(InvoiceDetail.quantity) as quantity, 
+    SUM(InvoiceDetail.quantity * (InvoiceDetail.price - ProductItem.cost)) as profit,
     ProductItem.productId AS productId
     FROM Invoice 
     INNER JOIN InvoiceDetail ON Invoice.id = InvoiceDetail.invoiceId
@@ -127,6 +135,7 @@ export class ReportRepository implements IReportRepository {
           ProductConverter.fromPrismaProduct(product),
           Number(r.revenue),
           Number(r.quantity),
+          Number(r.profit),
         );
         return reportEnitty;
       }),

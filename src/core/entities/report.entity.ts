@@ -7,6 +7,7 @@ export class MonthReportEntity extends Entity {
   product: ProductEntity;
   revenue: number;
   quantity: number;
+  profit: number;
 
   constructor(
     year: number,
@@ -14,6 +15,7 @@ export class MonthReportEntity extends Entity {
     product: ProductEntity,
     revenue: number,
     quantity: number,
+    profit: number,
   ) {
     super();
     this.year = year;
@@ -21,6 +23,7 @@ export class MonthReportEntity extends Entity {
     this.product = product;
     this.revenue = revenue;
     this.quantity = quantity;
+    this.profit = profit;
   }
 }
 
@@ -29,18 +32,21 @@ export class YearReportEntity extends Entity {
   product: ProductEntity;
   revenue: number;
   quantity: number;
+  profit: number;
 
   constructor(
     year: number,
     product: ProductEntity,
     revenue: number,
     quantity: number,
+    profit: number,
   ) {
     super();
     this.year = year;
     this.product = product;
     this.revenue = revenue;
     this.quantity = quantity;
+    this.profit = profit;
   }
 }
 
@@ -50,12 +56,14 @@ export class WeekReportEntity extends Entity {
   product: ProductEntity;
   revenue: number;
   quantity: number;
+  profit: number;
   constructor(
     year: number,
     week: number,
     product: ProductEntity,
     revenue: number,
     quantity: number,
+    profit: number,
   ) {
     super();
     this.year = year;
@@ -63,5 +71,6 @@ export class WeekReportEntity extends Entity {
     this.product = product;
     this.revenue = revenue;
     this.quantity = quantity;
+    this.profit = profit;
   }
 }

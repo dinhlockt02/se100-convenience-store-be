@@ -42,6 +42,7 @@ export class CreateInvoiceUsecase {
             `Invalid quantity of product item ${detail.productItemId}`,
           );
         }
+
         const invoiceDetail = new InvoiceDetailEntity();
         invoiceDetail.productItem = productItem;
         invoiceDetail.invoice = invoice;
