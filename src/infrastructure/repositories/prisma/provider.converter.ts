@@ -31,6 +31,7 @@ export class ProviderConverter {
       provider.email,
       provider.phone,
       provider.representative,
+      provider.updatedAt,
     );
   }
 }

@@ -31,6 +31,7 @@ export class UpdateProviderUsecase {
       email,
       phone,
       representative,
+      null,
     );
 
     const validationErrors = await providerEntity.validateData();

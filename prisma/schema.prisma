@@ -28,6 +28,7 @@ model User {
   role               Role
   Invoice            Invoice[]
   DeliveryNote       DeliveryNote[]
+  updatedAt          DateTime             @updatedAt
 }
 
 enum Gender {
@@ -58,6 +59,7 @@ model Provider {
   phone               String                @default("")
   representative      String                @default("")
   ProvidersOnProducts ProvidersOnProducts[]
+  updatedAt           DateTime              @updatedAt
 }
 
 model Product {
@@ -67,6 +69,7 @@ model Product {
   providers           Provider[]            @relation()
   ProductItems        ProductItem[]
   ProvidersOnProducts ProvidersOnProducts[]
+  updatedAt           DateTime              @updatedAt
 }
 
 model ProvidersOnProducts {
@@ -111,6 +114,7 @@ model ProductItem {
   description     String
   image           String
   InvoiceDetail   InvoiceDetail[]
+  updatedAt       DateTime        @updatedAt
 }
 
 // Invoice related models

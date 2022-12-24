@@ -38,6 +38,8 @@ export class ProductItemPresenter {
     isArray: true,
   })
   state: ProductItemState[];
+  @ApiProperty()
+  updatedAt: Date;
 
   static fromProductItemEntity(
     productItem: ProductItemEntity,
@@ -62,6 +64,7 @@ export class ProductItemPresenter {
           color: st.color,
         };
       }),
+      updatedAt: productItem.updatedAt,
     };
   }
 }
