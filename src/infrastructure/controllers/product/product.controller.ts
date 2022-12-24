@@ -62,15 +62,20 @@ export class ProductController {
     }
   }
 
-  @Post('providers/:productId/:providerId')
+  @Post('providers/:productId/add')
   @ApiResponse({ status: 201, type: ProviderPresenter, isArray: true })
+  @ApiBody({
+    isArray: true,
+    type: Number,
+  })
   async addProviderToProduct(
     @Param('productId') productId: string,
-    @Param('providerId', ParseIntPipe) providerId: number,
+    @Body()
+    providerId: number[],
   ) {
     try {
       const providers = await this.addProviderToProductUsecase.execute(
-        providerId,
+        providerId.map((id) => Number(id)),
         productId,
       );
       return providers.map((provider) =>
@@ -81,11 +86,15 @@ export class ProductController {
     }
   }
 
-  @Delete('providers/:productId/:providerId')
+  @Post('providers/:productId/remove')
+  @ApiBody({
+    isArray: true,
+    type: Number,
+  })
   @ApiResponse({ status: 200, type: ProviderPresenter, isArray: true })
   async removeProviderFromProduct(
     @Param('productId') productId: string,
-    @Param('providerId', ParseIntPipe) providerId: number,
+    @Body() providerId: number[],
   ) {
     try {
       const providers = await this.removeProviderFromProductUsecase.execute(

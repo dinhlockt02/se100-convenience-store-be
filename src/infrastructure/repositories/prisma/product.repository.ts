@@ -12,16 +12,18 @@ import { ProviderConverter } from './provider.converter';
 export class ProductRepository implements IProductRepository {
   constructor(private readonly prisma: PrismaService) {}
   async addProvider(
-    providerId: number,
+    providerId: number[],
     productId: string,
   ): Promise<ProviderEntity[]> {
     try {
       const providers = await this.prisma.$transaction(async (tx) => {
-        await tx.providersOnProducts.create({
-          data: {
-            productId: productId,
-            providerId: providerId,
-          },
+        await tx.providersOnProducts.createMany({
+          data: providerId.map((id) => {
+            return {
+              productId: productId,
+              providerId: id,
+            };
+          }),
         });
         return await tx.$queryRaw<Provider[]>`
         SELECT Provider.id, Provider.name, Provider.address, Provider.email, Provider.phone, Provider.representative
@@ -38,6 +40,9 @@ export class ProductRepository implements IProductRepository {
     } catch (error) {
       if (error.code == 'P2002') {
         throw new CoreException.ConflictException('Provider has been added.');
+      }
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Provider not found');
       }
       throw new CoreException.DatabaseException('Add provider failed');
     }
@@ -61,16 +66,16 @@ export class ProductRepository implements IProductRepository {
     }
   }
   async removeProvider(
-    providerId: number,
+    providerId: number[],
     productId: string,
   ): Promise<ProviderEntity[]> {
     try {
       const providers = await this.prisma.$transaction(async (tx) => {
-        await tx.providersOnProducts.delete({
+        await tx.providersOnProducts.deleteMany({
           where: {
-            providerId_productId: {
-              productId: productId,
-              providerId: providerId,
+            productId: productId,
+            providerId: {
+              in: providerId,
             },
           },
         });
@@ -92,6 +97,12 @@ export class ProductRepository implements IProductRepository {
         throw new CoreException.ConflictException(
           'Provider has not been added.',
         );
+      }
+      if (error.code == 'P2002') {
+        throw new CoreException.ConflictException('Provider has been added.');
+      }
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Provider not found');
       }
       throw new CoreException.DatabaseException(error.code);
     }

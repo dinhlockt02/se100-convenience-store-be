@@ -61,11 +61,11 @@ export class ProviderController {
     }
   }
 
-  @Post('products/:providerId/:productId')
+  @Post('products/:providerId/add')
   @ApiResponse({ status: 201, type: ProductPresenter, isArray: true })
   async addProduct(
     @Param('providerId', ParseIntPipe) providerId: number,
-    @Param('productId') productId: string,
+    @Body() productId: string[],
   ) {
     try {
       const products = await this.addProductToProviderUsecase.execute(
@@ -78,11 +78,11 @@ export class ProviderController {
     }
   }
 
-  @Delete('products/:providerId/:productId')
+  @Post('products/:providerId/remove')
   @ApiResponse({ status: 200, type: ProductPresenter, isArray: true })
   async removeProduct(
     @Param('providerId', ParseIntPipe) providerId: number,
-    @Param('productId') productId: string,
+    @Body() productId: string[],
   ) {
     try {
       const products = await this.removeProductFromProviderUsecase.execute(

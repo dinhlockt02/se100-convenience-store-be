@@ -7,10 +7,13 @@ export interface IProductRepository {
   getProductById(id: string): Promise<ProductEntity>;
   createProduct(product: ProductEntity): Promise<ProductEntity>;
   getProducts(): Promise<ProductEntity[]>;
-  addProvider(providerId: number, productId: string): Promise<ProviderEntity[]>;
+  addProvider(
+    providerId: number[],
+    productId: string,
+  ): Promise<ProviderEntity[]>;
   getProviders(productId: string): Promise<ProviderEntity[]>;
   removeProvider(
-    providerId: number,
+    providerId: number[],
     productId: string,
   ): Promise<ProviderEntity[]>;
 }

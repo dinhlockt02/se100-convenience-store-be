@@ -14,7 +14,7 @@ export class AddProviderToProductUsecase {
   ) {}
 
   async execute(
-    providerId: number,
+    providerId: number[],
     productId: string,
   ): Promise<ProviderEntity[]> {
     return await this.productRepository.addProvider(providerId, productId);
