@@ -23,7 +23,7 @@ export class AddProductItemUsecase {
     private readonly productItemQuantityStateRuleRepository: IProductItemQuantityStateRuleRepository,
   ) {}
   async execute(
-    productId: string,
+    productId: number,
     deliveryNoteId: number,
     MFG: Date,
     EXP: Date,

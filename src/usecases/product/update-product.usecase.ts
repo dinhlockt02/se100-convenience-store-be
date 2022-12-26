@@ -16,7 +16,7 @@ export class UpdateProductUsecase {
   ) {}
 
   async execute(
-    id: string,
+    id: number,
     title: string,
     tax: number,
   ): Promise<ProductEntity> {

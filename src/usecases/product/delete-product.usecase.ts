@@ -13,7 +13,7 @@ export class DeleteProductUsecase {
     private readonly getProductByIdUsecase: GetProductByIdUsecase,
   ) {}
 
-  async execute(id: string) {
+  async execute(id: number) {
     await this.getProductByIdUsecase.execute(id);
     await this.productRepository.deleteProduct(id);
   }

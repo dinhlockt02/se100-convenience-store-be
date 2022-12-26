@@ -69,7 +69,7 @@ export class ProductController {
     type: Number,
   })
   async addProviderToProduct(
-    @Param('productId') productId: string,
+    @Param('productId', ParseIntPipe) productId: number,
     @Body()
     providerId: number[],
   ) {
@@ -93,7 +93,7 @@ export class ProductController {
   })
   @ApiResponse({ status: 200, type: ProviderPresenter, isArray: true })
   async removeProviderFromProduct(
-    @Param('productId') productId: string,
+    @Param('productId', ParseIntPipe) productId: number,
     @Body() providerId: number[],
   ) {
     try {
@@ -149,7 +149,7 @@ export class ProductController {
     status: 200,
     type: ProductPresenter,
   })
-  async getProductById(@Param('id') id: string) {
+  async getProductById(@Param('id', ParseIntPipe) id: number) {
     try {
       const product = await this.getProductByIdUsecase.execute(id);
       return new ProductPresenter(product);
@@ -160,7 +160,7 @@ export class ProductController {
 
   @Delete(':id')
   @ApiResponse({ status: 200 })
-  async deleteProvider(@Param('id') id: string) {
+  async deleteProvider(@Param('id', ParseIntPipe) id: number) {
     try {
       await this.deleteProductUsecase.execute(id);
     } catch (error) {
@@ -174,7 +174,7 @@ export class ProductController {
   })
   @ApiResponse({ status: 200, type: ProductPresenter })
   async updateProvider(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: ProductDto,
   ) {
     try {

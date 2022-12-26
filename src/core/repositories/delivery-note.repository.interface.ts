@@ -14,7 +14,7 @@ export interface IDeliveryNoteRepository {
 
 export class CreateProductItemDto {
   @IsString()
-  productId: string;
+  productId: number;
   @IsDate()
   MFG: Date;
   @IsDate()

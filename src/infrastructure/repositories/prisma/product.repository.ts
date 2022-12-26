@@ -13,7 +13,7 @@ export class ProductRepository implements IProductRepository {
   constructor(private readonly prisma: PrismaService) {}
   async addProvider(
     providerId: number[],
-    productId: string,
+    productId: number,
   ): Promise<ProviderEntity[]> {
     try {
       const providers = await this.prisma.$transaction(async (tx) => {
@@ -67,7 +67,7 @@ export class ProductRepository implements IProductRepository {
   }
   async removeProvider(
     providerId: number[],
-    productId: string,
+    productId: number,
   ): Promise<ProviderEntity[]> {
     try {
       const providers = await this.prisma.$transaction(async (tx) => {
@@ -121,7 +121,7 @@ export class ProductRepository implements IProductRepository {
       throw new CoreException.DatabaseException(error);
     }
   }
-  async deleteProduct(id: string) {
+  async deleteProduct(id: number) {
     try {
       await this.prisma.product.delete({
         where: {
@@ -132,7 +132,7 @@ export class ProductRepository implements IProductRepository {
       throw new CoreException.DatabaseException(error);
     }
   }
-  async getProductById(id: string): Promise<ProductEntity> {
+  async getProductById(id: number): Promise<ProductEntity> {
     try {
       const product = await this.prisma.product.findUnique({
         where: {

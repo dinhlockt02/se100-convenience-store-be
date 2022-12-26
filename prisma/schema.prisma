@@ -63,7 +63,7 @@ model Provider {
 }
 
 model Product {
-  id                  String                @id @default(uuid())
+  id                  Int                   @id @default(autoincrement())
   title               String
   tax                 Decimal
   providers           Provider[]            @relation()
@@ -76,7 +76,7 @@ model ProvidersOnProducts {
   provider   Provider @relation(fields: [providerId], references: [id])
   providerId Int
   product    Product  @relation(fields: [productId], references: [id])
-  productId  String
+  productId  Int
 
   @@id([providerId, productId])
 }
@@ -97,7 +97,7 @@ model DeliveryNote {
 model ProductItem {
   id              String          @id @default(uuid())
   product         Product         @relation(fields: [productId], references: [id])
-  productId       String
+  productId       Int
   deliveryNote    DeliveryNote    @relation(fields: [deliveryNoteId], references: [id])
   deliveryNoteId  Int
   /// Manufaturing Date

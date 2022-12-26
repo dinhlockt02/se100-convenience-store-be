@@ -41,7 +41,9 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
       });
       return DeliveryNoteConverter.toDeliveryNoteEntity(createdDeliveryNote);
     } catch (error) {
-      console.log(error);
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Product Item not found');
+      }
       throw new CoreException.DatabaseException(error);
     }
   }
