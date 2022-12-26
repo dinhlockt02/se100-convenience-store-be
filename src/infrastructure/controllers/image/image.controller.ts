@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Post,
   UploadedFile,
@@ -39,8 +40,12 @@ export class ImageController {
     }),
   )
   uploadImage(@UploadedFile() file: Express.Multer.File) {
-    return {
-      path: `${process.env.HOST_URL}/images/${file.filename}`,
-    };
+    try {
+      return {
+        path: `${process.env.HOST_URL}/images/${file.filename}`,
+      };
+    } catch (error) {
+      throw new BadRequestException('Upload image failed');
+    }
   }
 }

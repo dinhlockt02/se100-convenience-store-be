@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductEntity } from 'src/core/entities/product.entity';
 
 export class ProductDto {
   @ApiProperty({ required: true })

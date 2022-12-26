@@ -9,6 +9,8 @@ export class ProviderConverter {
       name: providerEntity.name,
       address: providerEntity.address,
       email: providerEntity.email,
+      phone: providerEntity.phone,
+      representative: providerEntity.representative,
     };
   }
   static toProviderUpdateInput(
@@ -18,6 +20,8 @@ export class ProviderConverter {
       name: providerEntity.name,
       address: providerEntity.address,
       email: providerEntity.email,
+      phone: providerEntity.phone,
+      representative: providerEntity.representative,
     };
   }
   static fromPrismaProvider(provider: Provider): ProviderEntity {
