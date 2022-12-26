@@ -82,7 +82,7 @@ model ProvidersOnProducts {
 }
 
 model DeliveryNote {
-  id            Int           @id @default(autoincrement())
+  id            String        @id
   provider      Provider      @relation(fields: [providerId], references: [id])
   providerId    Int
   date          DateTime
@@ -99,7 +99,7 @@ model ProductItem {
   product         Product         @relation(fields: [productId], references: [id])
   productId       Int
   deliveryNote    DeliveryNote    @relation(fields: [deliveryNoteId], references: [id])
-  deliveryNoteId  Int
+  deliveryNoteId  String
   /// Manufaturing Date
   MFG             DateTime
   /// Expiration Date

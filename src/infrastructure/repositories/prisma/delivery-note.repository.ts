@@ -61,7 +61,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
       DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote),
     );
   }
-  async getDeliveryNoteById(id: number): Promise<DeliveryNoteEntity> {
+  async getDeliveryNoteById(id: string): Promise<DeliveryNoteEntity> {
     const deliveryNote = await this.prisma.deliveryNote.findUnique({
       where: {
         id,
@@ -73,7 +73,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
     });
     return DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote);
   }
-  async deleteDeliveryNoteById(id: number) {
+  async deleteDeliveryNoteById(id: string) {
     try {
       await this.prisma.$transaction(async (tx) => {
         await tx.productItem.deleteMany({

@@ -24,7 +24,7 @@ export class AddProductItemUsecase {
   ) {}
   async execute(
     productId: number,
-    deliveryNoteId: number,
+    deliveryNoteId: string,
     MFG: Date,
     EXP: Date,
     cost: number,

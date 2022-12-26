@@ -8,7 +8,7 @@ export class ProductItemDto {
   productId: number;
   @IsInt()
   @ApiProperty({ required: true })
-  deliveryNoteId: number;
+  deliveryNoteId: string;
   @Type(() => Date)
   @IsDate()
   @ApiProperty({ required: true })

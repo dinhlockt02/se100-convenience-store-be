@@ -9,6 +9,7 @@ export class DeliveryNoteConverter {
     deliveryNote: DeliveryNoteEntity,
   ): Prisma.DeliveryNoteCreateInput {
     return {
+      id: deliveryNote.id,
       provider: {
         connect: {
           id: deliveryNote.provider.id,
@@ -44,7 +45,7 @@ export class DeliveryNoteConverter {
 
   static toProductItemCreateInput(
     productItem: CreateProductItemDto,
-    deliveryNoteId: number,
+    deliveryNoteId: string,
   ): Prisma.ProductItemCreateManyInput {
     return {
       productId: productItem.productId,

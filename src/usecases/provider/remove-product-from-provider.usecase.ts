@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProductEntity } from 'src/core/entities/product.entity';
-import { ProviderEntity } from 'src/core/entities/provider.entity';
-import { CoreException } from 'src/core/exceptions';
+
 import {
   IProviderRepository,
   IProviderRepositoryLabel,

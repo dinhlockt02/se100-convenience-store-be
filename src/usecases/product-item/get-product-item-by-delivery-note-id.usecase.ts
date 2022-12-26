@@ -17,7 +17,7 @@ export class GetProductItemByDeliveryNoteUsecase {
     @Inject(IProductItemQuantityStateRuleRepositoryLabel)
     private readonly productItemQuantityStateRuleRepository: IProductItemQuantityStateRuleRepository,
   ) {}
-  async execute(deliveryNoteId: number): Promise<ProductItemEntity[]> {
+  async execute(deliveryNoteId: string): Promise<ProductItemEntity[]> {
     const productItems =
       await this.productItemRepository.getProductItemByDeliveryNote(
         deliveryNoteId,

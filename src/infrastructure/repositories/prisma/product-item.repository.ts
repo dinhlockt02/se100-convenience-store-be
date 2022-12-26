@@ -72,7 +72,7 @@ export class ProductItemRepository implements IProductItemRepository {
     return ProductItemConverter.toProductItemEntity(productItem);
   }
   async getProductItemByDeliveryNote(
-    deliveryNoteId: number,
+    deliveryNoteId: string,
   ): Promise<ProductItemEntity[]> {
     const productItems = await this.prisma.productItem.findMany({
       where: {

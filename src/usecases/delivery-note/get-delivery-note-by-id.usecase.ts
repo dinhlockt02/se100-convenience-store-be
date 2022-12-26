@@ -21,7 +21,7 @@ export class GetDeliveryNoteByIdUsecase {
     private readonly productItemQuantityStateRuleRepository: IProductItemQuantityStateRuleRepository,
   ) {}
 
-  async execute(id: number): Promise<DeliveryNoteEntity> {
+  async execute(id: string): Promise<DeliveryNoteEntity> {
     const deliveryNote = await this.deliveryNoteRepository.getDeliveryNoteById(
       id,
     );
