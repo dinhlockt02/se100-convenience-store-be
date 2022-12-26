@@ -120,7 +120,7 @@ model ProductItem {
 // Invoice related models
 
 model Invoice {
-  id            String          @id @default(uuid())
+  id            String          @id
   /// The date and time invoice created at
   date          DateTime
   /// The person who created the invoice

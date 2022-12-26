@@ -31,7 +31,7 @@ export class DeliveryNoteEntity extends Entity {
   ) {
     super();
     if (!id) {
-      id = this.newId();
+      id = DeliveryNoteEntity.newId();
     }
     this.id = id;
     this.provider = provider;
@@ -43,7 +43,7 @@ export class DeliveryNoteEntity extends Entity {
     this.totalQuantity = totalQuantity;
   }
 
-  newId(): string {
+  static newId(): string {
     return randomUUID();
   }
 }
