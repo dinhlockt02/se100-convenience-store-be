@@ -38,7 +38,7 @@ export class AddProductItemUsecase {
       deliveryNoteId,
     );
     const productItem = new ProductItemEntity(
-      '',
+      null,
       product,
       deliveryNote,
       MFG,

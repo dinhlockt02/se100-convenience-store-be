@@ -1,4 +1,5 @@
 import { IsArray, IsDate, IsInt, IsString, IsUrl, Min } from 'class-validator';
+import { randomUUID } from 'crypto';
 import { DeliveryNoteEntity } from './delivery-note.entity';
 import { Entity } from './entity';
 import { InvoiceDetailEntity } from './invoice-detail.entity';
@@ -51,6 +52,9 @@ export class ProductItemEntity extends Entity {
     updatedAt: Date,
   ) {
     super();
+    if (!id) {
+      this.id = ProductItemEntity.newId();
+    }
     this.id = id;
     this.product = product;
     this.deliveryNote = deliveryNote;
@@ -65,5 +69,9 @@ export class ProductItemEntity extends Entity {
     this.invoiceDetails = [];
     this.state = state;
     this.updatedAt = updatedAt;
+  }
+
+  static newId(): string {
+    return randomUUID();
   }
 }
