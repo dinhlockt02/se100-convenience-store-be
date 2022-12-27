@@ -6,7 +6,7 @@ import { ProductItemDto } from '../product-item/product-item.dto';
 export class DeliveryNoteItemDto {
   @IsString()
   @ApiProperty({ required: true })
-  productId: string;
+  productId: number;
   @Type(() => Date)
   @IsDate()
   @ApiProperty({ required: true })

@@ -19,8 +19,22 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
   ): Promise<DeliveryNoteEntity> {
     try {
       const createdDeliveryNote = await this.prisma.$transaction(async (tx) => {
+        const t = {
+          totalQuantity: 0,
+          total: 0,
+        };
+
+        createProductItemDtos.forEach((dto) => {
+          t.total += dto.cost * dto.quantity;
+          t.totalQuantity += dto.quantity;
+        });
+
         const dn = await tx.deliveryNote.create({
-          data: DeliveryNoteConverter.toDeliveryNoteCreateInput(deliveryNote),
+          data: DeliveryNoteConverter.toDeliveryNoteCreateInput(
+            deliveryNote,
+            t.total,
+            t.totalQuantity,
+          ),
         });
         await tx.productItem.createMany({
           data: [
@@ -41,7 +55,9 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
       });
       return DeliveryNoteConverter.toDeliveryNoteEntity(createdDeliveryNote);
     } catch (error) {
-      console.log(error);
+      if (error.code == 'P2003') {
+        throw new CoreException.NotFoundException('Product Item not found');
+      }
       throw new CoreException.DatabaseException(error);
     }
   }
@@ -59,7 +75,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
       DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote),
     );
   }
-  async getDeliveryNoteById(id: number): Promise<DeliveryNoteEntity> {
+  async getDeliveryNoteById(id: string): Promise<DeliveryNoteEntity> {
     const deliveryNote = await this.prisma.deliveryNote.findUnique({
       where: {
         id,
@@ -71,7 +87,7 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
     });
     return DeliveryNoteConverter.toDeliveryNoteEntity(deliveryNote);
   }
-  async deleteDeliveryNoteById(id: number) {
+  async deleteDeliveryNoteById(id: string) {
     try {
       await this.prisma.$transaction(async (tx) => {
         await tx.productItem.deleteMany({

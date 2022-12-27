@@ -23,8 +23,8 @@ export class AddProductItemUsecase {
     private readonly productItemQuantityStateRuleRepository: IProductItemQuantityStateRuleRepository,
   ) {}
   async execute(
-    productId: string,
-    deliveryNoteId: number,
+    productId: number,
+    deliveryNoteId: string,
     MFG: Date,
     EXP: Date,
     cost: number,
@@ -38,7 +38,7 @@ export class AddProductItemUsecase {
       deliveryNoteId,
     );
     const productItem = new ProductItemEntity(
-      '',
+      null,
       product,
       deliveryNote,
       MFG,

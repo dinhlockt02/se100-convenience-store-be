@@ -3,7 +3,7 @@ import { ProductEntity } from 'src/core/entities/product.entity';
 
 export class ProductPresenter {
   @ApiProperty({ required: true })
-  id: string;
+  id: number;
   @ApiProperty()
   title: string;
   @ApiProperty({ example: 10 })

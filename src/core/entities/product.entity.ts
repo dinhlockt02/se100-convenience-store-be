@@ -4,8 +4,8 @@ import { ProductItemEntity } from './product-item.entity';
 import { ProviderEntity } from './provider.entity';
 
 export class ProductEntity extends Entity {
-  @IsString()
-  id: string;
+  @IsInt()
+  id: number;
   @IsString()
   title: string;
   @IsNumber()
@@ -17,7 +17,7 @@ export class ProductEntity extends Entity {
   productItems: ProductItemEntity[];
   updatedAt: Date;
 
-  constructor(id: string, title: string, tax: number, updatedAt: Date) {
+  constructor(id: number, title: string, tax: number, updatedAt: Date) {
     super();
     this.id = id;
     this.title = title;

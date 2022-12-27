@@ -29,7 +29,7 @@ export class CreateDeliveryNoteUsecase {
     const provider = await this.getProviderByIdUsecase.execute(providerId);
     const creator = await this.getUserByIdUsecase.execute(creatorId);
     const deliveryNote = new DeliveryNoteEntity(
-      0,
+      null,
       0,
       provider,
       date,

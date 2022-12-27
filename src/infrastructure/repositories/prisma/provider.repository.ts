@@ -26,7 +26,7 @@ export class ProviderRepository implements IProviderRepository {
   }
   async addProduct(
     providerId: number,
-    productId: string[],
+    productId: number[],
   ): Promise<ProductEntity[]> {
     try {
       const products = await this.prisma.$transaction(async (tx) => {
@@ -67,7 +67,7 @@ export class ProviderRepository implements IProviderRepository {
   }
   async removeProduct(
     providerId: number,
-    productId: string[],
+    productId: number[],
   ): Promise<ProductEntity[]> {
     try {
       const products = await this.prisma.$transaction(async (tx) => {
@@ -131,6 +131,8 @@ export class ProviderRepository implements IProviderRepository {
           updatedAt: 'desc',
         },
       });
+      console.log(providers);
+
       return providers.map(
         (
           provider: Provider & {

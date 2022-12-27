@@ -5,7 +5,7 @@ export interface IProductItemRepository {
   updateProductItem(productItem: ProductItemEntity): Promise<ProductItemEntity>;
   deleteProductItem(productItemId: string);
   getProductItemByDeliveryNote(
-    deliveryNoteId: number,
+    deliveryNoteId: string,
   ): Promise<ProductItemEntity[]>;
 
   getProductItemById(id: string): Promise<ProductItemEntity>;

@@ -1,12 +1,13 @@
-import { IsArray, IsDate, IsInt, Min } from 'class-validator';
+import { IsArray, IsDate, IsInt, IsString, Min } from 'class-validator';
+import { randomUUID } from 'crypto';
 import { Entity } from './entity';
 import { ProductItemEntity } from './product-item.entity';
 import { ProviderEntity } from './provider.entity';
 import { UserEntity } from './user.entity';
 
 export class DeliveryNoteEntity extends Entity {
-  @IsInt()
-  id: number;
+  @IsString()
+  id: string;
   provider: ProviderEntity;
   @IsDate()
   date: Date;
@@ -20,7 +21,7 @@ export class DeliveryNoteEntity extends Entity {
   totalQuantity: number;
 
   constructor(
-    id: number,
+    id: string,
     total: number,
     provider: ProviderEntity,
     date: Date,
@@ -29,6 +30,9 @@ export class DeliveryNoteEntity extends Entity {
     totalQuantity: number,
   ) {
     super();
+    if (!id) {
+      id = '';
+    }
     this.id = id;
     this.provider = provider;
     this.date = date;

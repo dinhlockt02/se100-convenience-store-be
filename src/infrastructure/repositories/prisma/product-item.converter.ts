@@ -15,6 +15,7 @@ export class ProductItemConverter {
     productItem: ProductItemEntity,
   ): Prisma.ProductItemCreateInput {
     return {
+      id: productItem.id,
       product: {
         connect: {
           id: productItem.product.id,

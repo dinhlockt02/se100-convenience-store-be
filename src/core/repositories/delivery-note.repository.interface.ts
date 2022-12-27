@@ -8,13 +8,13 @@ export interface IDeliveryNoteRepository {
   ): Promise<DeliveryNoteEntity>;
 
   getDeliveryNotes(): Promise<DeliveryNoteEntity[]>;
-  getDeliveryNoteById(id: number): Promise<DeliveryNoteEntity>;
-  deleteDeliveryNoteById(id: number);
+  getDeliveryNoteById(id: string): Promise<DeliveryNoteEntity>;
+  deleteDeliveryNoteById(id: string);
 }
 
 export class CreateProductItemDto {
   @IsString()
-  productId: string;
+  productId: number;
   @IsDate()
   MFG: Date;
   @IsDate()

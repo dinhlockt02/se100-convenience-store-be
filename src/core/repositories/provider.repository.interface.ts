@@ -7,11 +7,11 @@ export interface IProviderRepository {
   getProvider(id: number): Promise<ProviderEntity>;
   updateProvider(provider: ProviderEntity): Promise<ProviderEntity>;
   deleteProvider(id: number);
-  addProduct(providerId: number, productId: string[]): Promise<ProductEntity[]>;
+  addProduct(providerId: number, productId: number[]): Promise<ProductEntity[]>;
   getProducts(providerId: number): Promise<ProductEntity[]>;
   removeProduct(
     providerId: number,
-    productId: string[],
+    productId: number[],
   ): Promise<ProductEntity[]>;
 }
 

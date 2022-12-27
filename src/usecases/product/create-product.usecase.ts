@@ -14,7 +14,7 @@ export class CreateProductUsecase {
   ) {}
 
   async execute(title: string, tax: number): Promise<ProductEntity> {
-    const product = new ProductEntity('', title, tax, null);
+    const product = new ProductEntity(0, title, tax, null);
 
     const validationErrors = await product.validateData();
     if (validationErrors && validationErrors.length > 0) {

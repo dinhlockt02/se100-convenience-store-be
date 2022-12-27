@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProductEntity } from 'src/core/entities/product.entity';
-import { ProviderEntity } from 'src/core/entities/provider.entity';
-import { CoreException } from 'src/core/exceptions';
+
 import {
   IProviderRepository,
   IProviderRepositoryLabel,
@@ -16,7 +15,7 @@ export class RemoveProductFromProviderUsecase {
 
   async execute(
     providerId: number,
-    productId: string[],
+    productId: number[],
   ): Promise<ProductEntity[]> {
     return await this.providerRepository.removeProduct(providerId, productId);
   }

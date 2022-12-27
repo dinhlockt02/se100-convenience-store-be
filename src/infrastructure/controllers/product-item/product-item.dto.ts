@@ -5,10 +5,10 @@ import { IsDate, IsInt, IsString, IsUrl } from 'class-validator';
 export class ProductItemDto {
   @IsString()
   @ApiProperty({ required: true })
-  productId: string;
+  productId: number;
   @IsInt()
   @ApiProperty({ required: true })
-  deliveryNoteId: number;
+  deliveryNoteId: string;
   @Type(() => Date)
   @IsDate()
   @ApiProperty({ required: true })

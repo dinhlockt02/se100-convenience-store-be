@@ -64,7 +64,7 @@ class DeliveryNoteProductItemPresenter {
 
 export class DeliveryNotePresenterNoProductItems {
   @ApiProperty()
-  id: number;
+  id: string;
   @ApiProperty()
   provider: ProviderPresenter;
   @ApiProperty()
@@ -95,7 +95,7 @@ export class DeliveryNotePresenterNoProductItems {
 
 export class DeliveryNotePresenter {
   @ApiProperty()
-  id: number;
+  id: string;
   @ApiProperty()
   provider: ProviderPresenter;
   @ApiProperty()

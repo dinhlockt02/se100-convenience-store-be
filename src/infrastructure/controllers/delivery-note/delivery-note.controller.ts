@@ -100,7 +100,7 @@ export class DeliveryNoteController {
     status: 200,
     type: DeliveryNotePresenter,
   })
-  async getDeliveryNote(@Param('id', new ParseIntPipe()) id: number) {
+  async getDeliveryNote(@Param('id') id: string) {
     try {
       const deliveryNote = await this.getDeliveryNoteByIdUsecase.execute(id);
       return DeliveryNotePresenter.fromDeliveryNoteEntity(deliveryNote);
@@ -113,7 +113,7 @@ export class DeliveryNoteController {
   @ApiResponse({
     status: 200,
   })
-  async deleteDeliveryNote(@Param('id', new ParseIntPipe()) id: number) {
+  async deleteDeliveryNote(@Param('id') id: string) {
     try {
       await this.deleteDeliveryNoteUsecase.execute(id);
     } catch (error) {

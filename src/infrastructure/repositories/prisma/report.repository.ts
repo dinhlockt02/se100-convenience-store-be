@@ -22,7 +22,7 @@ export class ReportRepository implements IReportRepository {
         week: bigint;
         revenue: number;
         quantity: number;
-        productId: string;
+        productId: number;
         profit: number;
       }[]
     >`
@@ -66,7 +66,7 @@ export class ReportRepository implements IReportRepository {
       {
         revenue: number;
         quantity: number;
-        productId: string;
+        productId: number;
         profit: number;
       }[]
     >`
@@ -107,7 +107,7 @@ export class ReportRepository implements IReportRepository {
       {
         revenue: number;
         quantity: number;
-        productId: string;
+        productId: number;
         profit: number;
       }[]
     >`

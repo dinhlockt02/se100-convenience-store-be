@@ -13,7 +13,7 @@ export class GetProductByIdUsecase {
     private readonly productRepository: IProductRepository,
   ) {}
 
-  async execute(id: string): Promise<ProductEntity> {
+  async execute(id: number): Promise<ProductEntity> {
     const product = await this.productRepository.getProductById(id);
     if (!product) {
       throw new CoreException.NotFoundException('product not found');

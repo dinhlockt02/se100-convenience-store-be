@@ -63,7 +63,7 @@ model Provider {
 }
 
 model Product {
-  id                  String                @id @default(uuid())
+  id                  Int                   @id @default(autoincrement())
   title               String
   tax                 Decimal
   providers           Provider[]            @relation()
@@ -76,13 +76,13 @@ model ProvidersOnProducts {
   provider   Provider @relation(fields: [providerId], references: [id])
   providerId Int
   product    Product  @relation(fields: [productId], references: [id])
-  productId  String
+  productId  Int
 
   @@id([providerId, productId])
 }
 
 model DeliveryNote {
-  id            Int           @id @default(autoincrement())
+  id            String        @id
   provider      Provider      @relation(fields: [providerId], references: [id])
   providerId    Int
   date          DateTime
@@ -95,11 +95,11 @@ model DeliveryNote {
 }
 
 model ProductItem {
-  id              String          @id @default(uuid())
+  id              String          @id
   product         Product         @relation(fields: [productId], references: [id])
-  productId       String
+  productId       Int
   deliveryNote    DeliveryNote    @relation(fields: [deliveryNoteId], references: [id])
-  deliveryNoteId  Int
+  deliveryNoteId  String
   /// Manufaturing Date
   MFG             DateTime
   /// Expiration Date
@@ -120,7 +120,7 @@ model ProductItem {
 // Invoice related models
 
 model Invoice {
-  id            String          @id @default(uuid())
+  id            String          @id
   /// The date and time invoice created at
   date          DateTime
   /// The person who created the invoice

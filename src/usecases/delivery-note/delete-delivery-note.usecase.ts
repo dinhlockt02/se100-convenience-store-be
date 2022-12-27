@@ -12,7 +12,7 @@ export class DeleteDeliveryNoteUsecase {
     private readonly getDeliveryNoteByIdUsecase: GetDeliveryNoteByIdUsecase,
   ) {}
 
-  async execute(id: number) {
+  async execute(id: string) {
     await this.getDeliveryNoteByIdUsecase.execute(id);
     await this.deliveryNoteRepository.deleteDeliveryNoteById(id);
   }

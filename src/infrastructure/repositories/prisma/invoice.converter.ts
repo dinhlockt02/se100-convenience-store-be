@@ -18,6 +18,7 @@ export class InvoiceConverter {
     invoice: InvoiceEntity,
   ): Prisma.InvoiceCreateInput {
     return {
+      id: InvoiceEntity.newId(),
       date: invoice.date,
       creator: {
         connect: {
@@ -45,10 +46,13 @@ export class InvoiceConverter {
     if (!invoice) {
       return null;
     }
-    const entity = new InvoiceEntity();
-    entity.id = invoice.id;
-    entity.date = invoice.date;
-    entity.creator = UserConverter.toEntity(invoice.creator);
+    const entity = new InvoiceEntity(
+      invoice.id,
+      invoice.date,
+      UserConverter.toEntity(invoice.creator),
+      invoice.total,
+      null,
+    );
     return entity;
   }
   static toInvoiceEntityWithInvoiceDetail(
@@ -65,11 +69,7 @@ export class InvoiceConverter {
     if (!invoice) {
       return null;
     }
-    const entity = new InvoiceEntity();
-    entity.id = invoice.id;
-    entity.date = invoice.date;
-    entity.creator = UserConverter.toEntity(invoice.creator);
-    entity.invoiceDetails = invoice.InvoiceDetail.map((detail) => {
+    const invoiceDetails = invoice.InvoiceDetail.map((detail) => {
       const detailEntity = new InvoiceDetailEntity();
       detailEntity.invoice = entity;
       detailEntity.productItem = ProductItemConverter.toProductItemEntity(
@@ -79,6 +79,14 @@ export class InvoiceConverter {
       detailEntity.quantity = detail.quantity;
       return detailEntity;
     });
+    const entity = new InvoiceEntity(
+      invoice.id,
+      invoice.date,
+      UserConverter.toEntity(invoice.creator),
+      invoice.total,
+      invoiceDetails,
+    );
+
     return entity;
   }
 }
