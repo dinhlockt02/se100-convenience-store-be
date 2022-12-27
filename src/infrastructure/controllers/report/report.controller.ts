@@ -1,6 +1,8 @@
-import { ParseIntPipe } from '@nestjs/common';
-import { Controller, Get, Query } from '@nestjs/common/decorators';
+import { ParseIntPipe, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Query, Res } from '@nestjs/common/decorators';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+import { CoreException } from 'src/core/exceptions';
 import {
   apiResponseBadRequestOptions,
   apiResponseConflictOptions,
@@ -13,6 +15,7 @@ import { GetMonthReportUsecase } from 'src/usecases/report/get-month-report.usec
 import { GetWeekReportUsecase } from 'src/usecases/report/get-week-report.usecase';
 import { GetYearReportUsecase } from 'src/usecases/report/get-year-report.usecase';
 import {
+  generateWeekReportExcel,
   MonthReportPresenter,
   WeekReportPresenter,
   YearReportPresenter,
@@ -48,6 +51,39 @@ export class ReportController {
       return weekReports.map(
         (weekReport) => new WeekReportPresenter(weekReport),
       );
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Get('excel/week')
+  // @ApiResponse({ status: 200, type: WeekReportPresenter, isArray: true })
+  async getWeekReportExcel(
+    @Res({ passthrough: true }) res: Response,
+    @Query('year', ParseIntPipe) year: number,
+    @Query('month', ParseIntPipe) month: number,
+    @Query('day', ParseIntPipe) day: number,
+  ) {
+    try {
+      const weekReports = await this.getWeekReportUsecase.execute(
+        year,
+        month,
+        day,
+      );
+      const weekReportsPresenter = weekReports.map(
+        (weekReport) => new WeekReportPresenter(weekReport),
+      );
+      if (weekReportsPresenter.length == 0) {
+        throw new CoreException.NotFoundException('No data');
+      }
+      const workbook = generateWeekReportExcel(weekReportsPresenter);
+      const buffer = await workbook.xlsx.writeBuffer();
+      const filename = `Week Report ${day}-${month}-${year}`;
+
+      return new StreamableFile(new Uint8Array(buffer), {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        disposition: `attachment;filename=${filename}.xlsx`,
+      });
     } catch (error) {
       HandleExeption(error);
     }

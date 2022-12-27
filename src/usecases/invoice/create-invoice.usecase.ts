@@ -28,6 +28,14 @@ export class CreateInvoiceUsecase {
       quantity: number;
     }[],
   ): Promise<InvoiceEntity> {
+    const creator = await this.getUserByIdUsecase.execute(userId);
+    const invoice = new InvoiceEntity(
+      InvoiceEntity.newId(),
+      date,
+      creator,
+      total,
+      null,
+    );
     const invoiceDetails = await Promise.all(
       details.map(async (detail) => {
         const productItem = await this.getProductItemByIdUsecase.execute(
@@ -44,17 +52,11 @@ export class CreateInvoiceUsecase {
         invoiceDetail.invoice = invoice;
         invoiceDetail.price = detail.price;
         invoiceDetail.quantity = detail.quantity;
+        console.log('GOES HERE');
         return invoiceDetail;
       }),
     );
-    const creator = await this.getUserByIdUsecase.execute(userId);
-    const invoice = new InvoiceEntity(
-      InvoiceEntity.newId(),
-      date,
-      creator,
-      total,
-      invoiceDetails,
-    );
+    invoice.invoiceDetails = invoiceDetails;
     invoice.date = date;
 
     return await this.invoiceRepository.createInvoice(invoice);
