@@ -8,6 +8,8 @@ import { UserConverter } from './user.converter';
 export class DeliveryNoteConverter {
   static toDeliveryNoteCreateInput(
     deliveryNote: DeliveryNoteEntity,
+    total: number,
+    totalQuantity: number,
   ): Prisma.DeliveryNoteCreateInput {
     return {
       id: deliveryNote.id,
@@ -17,13 +19,14 @@ export class DeliveryNoteConverter {
         },
       },
       date: deliveryNote.date,
-      total: deliveryNote.total,
+      total: total,
       shipper: deliveryNote.shipper,
       creator: {
         connect: {
           id: deliveryNote.creator.id,
         },
       },
+      totalQuantity: totalQuantity,
     };
   }
   static toDeliveryNoteEntity(

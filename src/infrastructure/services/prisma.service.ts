@@ -70,6 +70,20 @@ export class PrismaService extends PrismaClient {
     return await next(params);
   };
 
+  deliveryNoteTotalMiddleware: Prisma.Middleware = async (
+    params: Prisma.MiddlewareParams,
+    next,
+  ) => {
+    if (params.model == 'DeliveryNote' && params.action == 'create') {
+      params.args.data.id = await this.generateDeliveryNoteId(
+        params.args.data.date,
+        params.args.data.provider.connect.id,
+      );
+    }
+
+    return await next(params);
+  };
+
   generateDeliveryNoteId = async (
     date: Date,
     providerId: number,

@@ -19,8 +19,22 @@ export class DeliveryNoteRepository implements IDeliveryNoteRepository {
   ): Promise<DeliveryNoteEntity> {
     try {
       const createdDeliveryNote = await this.prisma.$transaction(async (tx) => {
+        const t = {
+          totalQuantity: 0,
+          total: 0,
+        };
+
+        createProductItemDtos.forEach((dto) => {
+          t.total += dto.cost * dto.quantity;
+          t.totalQuantity += dto.quantity;
+        });
+
         const dn = await tx.deliveryNote.create({
-          data: DeliveryNoteConverter.toDeliveryNoteCreateInput(deliveryNote),
+          data: DeliveryNoteConverter.toDeliveryNoteCreateInput(
+            deliveryNote,
+            t.total,
+            t.totalQuantity,
+          ),
         });
         await tx.productItem.createMany({
           data: [
