@@ -131,6 +131,8 @@ export class ProviderRepository implements IProviderRepository {
           updatedAt: 'desc',
         },
       });
+      console.log(providers);
+
       return providers.map(
         (
           provider: Provider & {

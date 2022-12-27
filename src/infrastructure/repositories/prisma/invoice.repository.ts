@@ -10,7 +10,7 @@ export class InvoiceRepository implements IInvoiceRepository {
   constructor(private readonly prisma: PrismaService) {}
   async createInvoice(invoice: InvoiceEntity): Promise<InvoiceEntity> {
     try {
-      await this.prisma.$transaction([
+      const [createdInvoice] = await this.prisma.$transaction([
         this.prisma.invoice.create({
           data: InvoiceConverter.toInvoiceCreateInput(invoice),
         }),
@@ -27,6 +27,7 @@ export class InvoiceRepository implements IInvoiceRepository {
           });
         }),
       ]);
+      invoice.id = createdInvoice.id;
       return invoice;
     } catch (error) {
       throw new CoreException.DatabaseException('create invoice failed');
