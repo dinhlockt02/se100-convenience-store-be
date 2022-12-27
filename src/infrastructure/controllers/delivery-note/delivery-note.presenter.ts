@@ -108,6 +108,8 @@ export class DeliveryNotePresenter {
   productItems: DeliveryNoteProductItemPresenter[];
   @ApiProperty()
   totalQuantity: number;
+  @ApiProperty()
+  shipper: string;
 
   static fromDeliveryNoteEntity(
     deliveryNote: DeliveryNoteEntity,
@@ -122,6 +124,7 @@ export class DeliveryNotePresenter {
       ),
       creator: new UserPresenter(deliveryNote.creator),
       totalQuantity: deliveryNote.totalQuantity,
+      shipper: deliveryNote.shipper,
     };
   }
 }
