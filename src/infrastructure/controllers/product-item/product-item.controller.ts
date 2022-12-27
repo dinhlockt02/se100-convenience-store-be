@@ -94,7 +94,6 @@ export class ProductItemController {
   async getProductItemById(@Param('id') id: string) {
     try {
       const productItem = await this.getProductItemByIdUsecase.execute(id);
-
       return ProductItemPresenter.fromProductItemEntity(productItem);
     } catch (error) {
       HandleExeption(error);

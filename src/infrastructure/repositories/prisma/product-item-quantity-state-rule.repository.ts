@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ProductItemQuantityStateRuleEntity } from 'src/core/entities/product-item-quantity-state-rule.entity';
 import { ProductItemEntity } from 'src/core/entities/product-item.entity';
 import { ProductItemStateEntity } from 'src/core/entities/product-state.entity';
+import { CoreException } from 'src/core/exceptions';
 import { IProductItemQuantityStateRuleRepository } from 'src/core/repositories/product-item-quantity-state-rule.repository';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
 import { ProductItemQuantityStateRuleConverter } from './product-item-quantity-state-rule.converter';
@@ -15,13 +16,18 @@ export class ProductItemQuantityStateRuleRepository
   async getProductItemQuantityStateRules(): Promise<
     ProductItemQuantityStateRuleEntity[]
   > {
-    const prismaRules =
-      await this.prisma.productItemQuantityStateRule.findMany();
-    return prismaRules.map((prismaRule) =>
-      ProductItemQuantityStateRuleConverter.toProductItemQuantityStateRuleEntity(
-        prismaRule,
-      ),
-    );
+    try {
+      const prismaRules =
+        await this.prisma.productItemQuantityStateRule.findMany();
+
+      return prismaRules.map((prismaRule) =>
+        ProductItemQuantityStateRuleConverter.toProductItemQuantityStateRuleEntity(
+          prismaRule,
+        ),
+      );
+    } catch (error) {
+      throw new CoreException.DatabaseException(error);
+    }
   }
   async getProductItemQuantityStateRuleById(
     id: number,
@@ -74,22 +80,27 @@ export class ProductItemQuantityStateRuleRepository
   async updateState(
     productItems: ProductItemEntity[],
   ): Promise<ProductItemEntity[]> {
-    const productItemQuantityStateRules =
-      await this.getProductItemQuantityStateRules();
-    return productItems.map((productItem) => {
-      const matchRule = productItemQuantityStateRules.find(
-        (rule) =>
-          rule.maxVal >= productItem.quantity &&
-          productItem.quantity >= rule.minVal,
-      );
+    try {
+      const productItemQuantityStateRules =
+        await this.getProductItemQuantityStateRules();
 
-      if (matchRule) {
-        productItem.state.push(
-          new ProductItemStateEntity(matchRule.stateName, matchRule.color),
+      return productItems.map((productItem) => {
+        const matchRule = productItemQuantityStateRules.find(
+          (rule) =>
+            rule.maxVal >= productItem.quantity &&
+            productItem.quantity >= rule.minVal,
         );
-      }
 
-      return productItem;
-    });
+        if (matchRule) {
+          productItem.state.push(
+            new ProductItemStateEntity(matchRule.stateName, matchRule.color),
+          );
+        }
+
+        return productItem;
+      });
+    } catch (error) {
+      throw new CoreException.DatabaseException('Update state failed');
+    }
   }
 }

@@ -25,6 +25,7 @@ export const HandleExeption = (err: CoreException.BussinessException) => {
   if (err instanceof CoreException.NotImplemented) {
     throw new NotImplementedException();
   }
+  console.log(err);
   throw new InternalServerErrorException(err.message);
 };
 

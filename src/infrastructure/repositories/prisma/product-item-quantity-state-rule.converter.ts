@@ -28,6 +28,7 @@ export class ProductItemQuantityStateRuleConverter {
     if (!productItemQuantityStateRule) {
       return null;
     }
+
     return new ProductItemQuantityStateRuleEntity(
       productItemQuantityStateRule.id,
       productItemQuantityStateRule.stateName,

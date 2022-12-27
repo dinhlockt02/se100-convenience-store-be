@@ -75,6 +75,7 @@ export class ProductItemExpireStateRuleRepository
   ): Promise<ProductItemEntity[]> {
     const productItemExpireStateRules =
       await this.getProductItemExpireStateRules();
+
     return productItems.map((productItem) => {
       const remainingDays = dateDiffInDays(new Date(), productItem.EXP);
 

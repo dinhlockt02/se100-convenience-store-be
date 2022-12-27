@@ -5,6 +5,7 @@ import {
   YearReportEntity,
 } from 'src/core/entities/report.entity';
 import { ProductPresenter } from '../product/product.presenter';
+import * as ExcelJS from 'exceljs';
 
 export class MonthReportPresenter {
   @ApiProperty()
@@ -73,4 +74,63 @@ export class WeekReportPresenter {
     this.quantity = entity.quantity;
     this.profit = entity.profit;
   }
+}
+
+export function generateWeekReportExcel(
+  report: WeekReportPresenter[],
+): ExcelJS.Workbook {
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet(
+    `Week ${report[0].week} Year ${report[0].year}`,
+    {
+      headerFooter: {
+        firstHeader: `Week ${report[0].week} Year ${report[0].year}`,
+      },
+    },
+  );
+  sheet.columns = [
+    {
+      header: 'Product',
+      key: 'title',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Revenue',
+      key: 'revenue',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Quantity',
+      key: 'quantity',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Profit',
+      key: 'profit',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+  ];
+  sheet.addRows(
+    report.map((r) => {
+      return { ...r, title: r.product.title };
+    }),
+    'i',
+  );
+  return workbook;
 }

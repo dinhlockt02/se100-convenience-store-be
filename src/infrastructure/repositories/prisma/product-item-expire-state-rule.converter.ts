@@ -26,6 +26,7 @@ export class ProductItemExpireStateRuleConverter {
     if (!productItemExpireStateRule) {
       return null;
     }
+
     return new ProductItemExpireStateRuleEntity(
       productItemExpireStateRule.id,
       productItemExpireStateRule.stateName,
