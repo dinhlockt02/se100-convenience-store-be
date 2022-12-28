@@ -62,7 +62,8 @@ export class InvoiceRepository implements IInvoiceRepository {
         InvoiceConverter.toInvoiceEntityWithInvoiceDetail(prismaInvoice),
       );
     } catch (error) {
-      throw new CoreException.DatabaseException('create invoice failed');
+      console.log(error);
+      throw new CoreException.DatabaseException('get invoices failed');
     }
   }
   async getInvoiceById(id: string): Promise<InvoiceEntity> {
