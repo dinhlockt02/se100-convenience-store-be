@@ -33,14 +33,14 @@ export class ResetPasswordTokenRepository
     });
     return ResetPasswordTokenConverter.toEntity(token);
   }
-  async verifyToken(token: ResetPasswordTokenEntity): Promise<UserEntity> {
-    if (!token || !token.id) {
+  async verifyToken(token: string): Promise<UserEntity> {
+    if (!token) {
       throw new CoreException.NotFoundException('Token not found');
     }
 
     const existedToken = await this.prisma.resetPasswordToken.findUnique({
       where: {
-        id: token.id,
+        id: token,
       },
       include: {
         user: true,

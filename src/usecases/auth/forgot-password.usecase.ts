@@ -32,7 +32,6 @@ export class ForgotPasswordUsecase {
     const token = await this.resetPasswordTokenRepository.createToken(
       existingUser,
     );
-    await this.sendEmailService.sendResetPasswordEmail(token);
-    return token;
+    return await this.sendEmailService.sendResetPasswordEmail(token);
   }
 }

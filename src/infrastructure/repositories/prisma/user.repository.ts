@@ -7,6 +7,23 @@ import { UserConverter } from './user.converter';
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
+  async updatePassword(
+    userEntity: UserEntity,
+    newPassword: string,
+  ): Promise<UserEntity> {
+    const [prismaUser] = await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: {
+          id: userEntity.id,
+        },
+        data: {
+          password: newPassword,
+        },
+      }),
+      this.prisma.resetPasswordToken.deleteMany(),
+    ]);
+    return UserConverter.toEntity(prismaUser);
+  }
 
   async getUsers(): Promise<UserEntity[]> {
     const prismaUsers = await this.prisma.user.findMany({
@@ -21,7 +38,7 @@ export class UserRepository implements IUserRepository {
       where: {
         id: updatedUser.id,
       },
-      data: UserConverter.toDatabase(updatedUser),
+      data: { ...UserConverter.toDatabase(updatedUser), email: undefined },
     });
     return UserConverter.toEntity(prismaUsers);
   }

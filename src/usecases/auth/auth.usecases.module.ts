@@ -3,10 +3,11 @@ import { RepositoriesModule } from 'src/infrastructure/repositories/repositories
 import { ServicesModule } from 'src/infrastructure/services/services.module';
 import { ForgotPasswordUsecase } from './forgot-password.usecase';
 import { LoginUsecase } from './login.usecase';
+import { ResetPasswordUsecase } from './reset-password.usecase';
 
 @Module({
   imports: [ServicesModule, RepositoriesModule],
-  providers: [ForgotPasswordUsecase, LoginUsecase],
-  exports: [ForgotPasswordUsecase, LoginUsecase],
+  providers: [ForgotPasswordUsecase, LoginUsecase, ResetPasswordUsecase],
+  exports: [ForgotPasswordUsecase, LoginUsecase, ResetPasswordUsecase],
 })
 export class AuthUsecasesModule {}

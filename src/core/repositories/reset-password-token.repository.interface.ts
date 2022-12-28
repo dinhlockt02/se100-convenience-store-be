@@ -3,7 +3,7 @@ import { UserEntity } from '../entities/user.entity';
 
 export interface IResetPasswordTokenRepository {
   createToken(userEntity: UserEntity): Promise<ResetPasswordTokenEntity>;
-  verifyToken(token: ResetPasswordTokenEntity): Promise<UserEntity>;
+  verifyToken(token: string): Promise<UserEntity>;
 }
 
 export const IResetPasswordTokenRepositoryLabel =
