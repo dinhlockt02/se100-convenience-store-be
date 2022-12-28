@@ -16,8 +16,10 @@ export class SendEmailService implements ISendEmailService {
   }
   async sendResetPasswordEmail(
     resetPasswordTokenEntity: ResetPasswordTokenEntity,
-  ) {
-    console.log('reset token sent');
+  ): Promise<string> {
+    const resetPasswordUrl =
+      this.configService.getOrThrow<string>('RESET_PASSWORD_URL');
+    return `${resetPasswordUrl}?token=${resetPasswordTokenEntity.id}`;
   }
 
   // async getResetLink(): Promise<string> {}

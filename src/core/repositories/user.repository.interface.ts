@@ -7,6 +7,10 @@ export interface IUserRepository {
   getUsers(): Promise<UserEntity[]>;
   updateUser(updatedUser: UserEntity): Promise<UserEntity>;
   deleteUser(id: number): Promise<void>;
+  updatePassword(
+    userEntity: UserEntity,
+    newPassword: string,
+  ): Promise<UserEntity>;
 }
 
 export const IUserRepositoryLabel = 'IUserRepositoryLabel';
