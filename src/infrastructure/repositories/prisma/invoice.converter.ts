@@ -69,6 +69,14 @@ export class InvoiceConverter {
     if (!invoice) {
       return null;
     }
+
+    const entity = new InvoiceEntity(
+      invoice.id,
+      invoice.date,
+      UserConverter.toEntity(invoice.creator),
+      invoice.total,
+      null,
+    );
     const invoiceDetails = invoice.InvoiceDetail.map((detail) => {
       const detailEntity = new InvoiceDetailEntity();
       detailEntity.invoice = entity;
@@ -79,13 +87,8 @@ export class InvoiceConverter {
       detailEntity.quantity = detail.quantity;
       return detailEntity;
     });
-    const entity = new InvoiceEntity(
-      invoice.id,
-      invoice.date,
-      UserConverter.toEntity(invoice.creator),
-      invoice.total,
-      invoiceDetails,
-    );
+
+    entity.invoiceDetails = invoiceDetails;
 
     return entity;
   }
