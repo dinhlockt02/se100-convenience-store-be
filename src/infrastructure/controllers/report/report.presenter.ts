@@ -134,3 +134,118 @@ export function generateWeekReportExcel(
   );
   return workbook;
 }
+
+export function generateMonthReportExcel(
+  report: MonthReportPresenter[],
+): ExcelJS.Workbook {
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet(
+    `Month ${report[0].month} Year ${report[0].year}`,
+    {
+      headerFooter: {
+        firstHeader: `Month ${report[0].month} Year ${report[0].year}`,
+      },
+    },
+  );
+  sheet.columns = [
+    {
+      header: 'Product',
+      key: 'title',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Revenue',
+      key: 'revenue',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Quantity',
+      key: 'quantity',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Profit',
+      key: 'profit',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+  ];
+  sheet.addRows(
+    report.map((r) => {
+      return { ...r, title: r.product.title };
+    }),
+    'i',
+  );
+  return workbook;
+}
+
+export function generateYearReportExcel(
+  report: YearReportPresenter[],
+): ExcelJS.Workbook {
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet(`Year ${report[0].year}`, {
+    headerFooter: {
+      firstHeader: `Year ${report[0].year}`,
+    },
+  });
+  sheet.columns = [
+    {
+      header: 'Product',
+      key: 'title',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Revenue',
+      key: 'revenue',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Quantity',
+      key: 'quantity',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+    {
+      header: 'Profit',
+      key: 'profit',
+      width: 20,
+      font: {
+        name: 'Times New Roman',
+        size: 14,
+      },
+    },
+  ];
+  sheet.addRows(
+    report.map((r) => {
+      return { ...r, title: r.product.title };
+    }),
+    'i',
+  );
+  return workbook;
+}

@@ -15,7 +15,9 @@ import { GetMonthReportUsecase } from 'src/usecases/report/get-month-report.usec
 import { GetWeekReportUsecase } from 'src/usecases/report/get-week-report.usecase';
 import { GetYearReportUsecase } from 'src/usecases/report/get-year-report.usecase';
 import {
+  generateMonthReportExcel,
   generateWeekReportExcel,
+  generateYearReportExcel,
   MonthReportPresenter,
   WeekReportPresenter,
   YearReportPresenter,
@@ -59,7 +61,6 @@ export class ReportController {
   @Get('excel/week')
   // @ApiResponse({ status: 200, type: WeekReportPresenter, isArray: true })
   async getWeekReportExcel(
-    @Res({ passthrough: true }) res: Response,
     @Query('year', ParseIntPipe) year: number,
     @Query('month', ParseIntPipe) month: number,
     @Query('day', ParseIntPipe) day: number,
@@ -112,6 +113,36 @@ export class ReportController {
     }
   }
 
+  @Get('excel/month')
+  // @ApiResponse({ status: 200, type: WeekReportPresenter, isArray: true })
+  async getMonthReportExcel(
+    @Query('year', ParseIntPipe) year: number,
+    @Query('month', ParseIntPipe) month: number,
+  ) {
+    try {
+      const monthReports = await this.getMonthReportUsecase.execute(
+        year,
+        month,
+      );
+      const monthReportsPresenter = monthReports.map(
+        (monthReport) => new MonthReportPresenter(monthReport),
+      );
+      if (monthReportsPresenter.length == 0) {
+        throw new CoreException.NotFoundException('No data');
+      }
+      const workbook = generateMonthReportExcel(monthReportsPresenter);
+      const buffer = await workbook.xlsx.writeBuffer();
+      const filename = `Month Report ${month}-${year}`;
+
+      return new StreamableFile(new Uint8Array(buffer), {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        disposition: `attachment;filename=${filename}.xlsx`,
+      });
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
   @Get('year')
   @ApiResponse({ status: 200, type: YearReportPresenter, isArray: true })
   async getYearReports(@Query('year', ParseIntPipe) year: number) {
@@ -120,6 +151,29 @@ export class ReportController {
       return yearReports.map(
         (yearReport) => new YearReportPresenter(yearReport),
       );
+    } catch (error) {
+      HandleExeption(error);
+    }
+  }
+
+  @Get('excel/year')
+  async getYearReportExcel(@Query('year', ParseIntPipe) year: number) {
+    try {
+      const yearReports = await this.getYearReportUsecase.execute(year);
+      const yearReportsPresenter = yearReports.map(
+        (yearReport) => new YearReportPresenter(yearReport),
+      );
+      if (yearReportsPresenter.length == 0) {
+        throw new CoreException.NotFoundException('No data');
+      }
+      const workbook = generateYearReportExcel(yearReportsPresenter);
+      const buffer = await workbook.xlsx.writeBuffer();
+      const filename = `Year Report ${year}`;
+
+      return new StreamableFile(new Uint8Array(buffer), {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        disposition: `attachment;filename=${filename}.xlsx`,
+      });
     } catch (error) {
       HandleExeption(error);
     }
