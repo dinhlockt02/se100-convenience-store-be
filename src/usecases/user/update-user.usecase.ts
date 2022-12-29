@@ -36,6 +36,7 @@ export class UpdateUserUseCase {
     existingUser.other = userEntity.other;
     existingUser.avatar = userEntity.avatar;
     existingUser.role = userEntity.role;
+    existingUser.active = userEntity.active;
 
     const updatedUser = await this.userRepository.updateUser(existingUser);
     return updatedUser;

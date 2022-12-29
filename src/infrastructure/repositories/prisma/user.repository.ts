@@ -35,13 +35,22 @@ export class UserRepository implements IUserRepository {
     return prismaUsers.map((prismaUser) => UserConverter.toEntity(prismaUser));
   }
   async updateUser(updatedUser: UserEntity): Promise<UserEntity> {
-    const prismaUsers = await this.prisma.user.update({
-      where: {
-        id: updatedUser.id,
-      },
-      data: { ...UserConverter.toDatabase(updatedUser), email: undefined },
-    });
-    return UserConverter.toEntity(prismaUsers);
+    try {
+      const prismaUsers = await this.prisma.user.update({
+        where: {
+          id: updatedUser.id,
+        },
+        data: { ...UserConverter.toDatabase(updatedUser), email: undefined },
+      });
+      return UserConverter.toEntity(prismaUsers);
+    } catch (error) {
+      if (error.code == 'P2002') {
+        throw new CoreException.ConflictException(
+          'Identity number must be unique',
+        );
+      }
+      throw new CoreException.DatabaseException(error);
+    }
   }
   async deleteUser(id: number): Promise<void> {
     try {
@@ -67,10 +76,21 @@ export class UserRepository implements IUserRepository {
     return UserConverter.toEntity(prismaUser);
   }
   async createUser(userEntity: UserEntity): Promise<UserEntity> {
-    const prismaUser = await this.prisma.user.create({
-      data: UserConverter.toDatabase(userEntity),
-    });
-    return UserConverter.toEntity(prismaUser);
+    try {
+      const [prismaUser] = await this.prisma.$transaction([
+        this.prisma.user.create({
+          data: UserConverter.toDatabase(userEntity),
+        }),
+      ]);
+      return UserConverter.toEntity(prismaUser);
+    } catch (error) {
+      if (error.code == 'P2002') {
+        throw new CoreException.ConflictException(
+          'Identity number must be unique',
+        );
+      }
+      throw new CoreException.DatabaseException(error);
+    }
   }
 
   async getUserById(id: number): Promise<UserEntity> {

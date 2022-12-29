@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDate,
   IsEmail,
   IsEnum,
@@ -45,4 +46,6 @@ export class UserEntity extends Entity {
   @IsEnum(Role)
   role: Role;
   updatedAt: Date;
+  @IsBoolean()
+  active: boolean;
 }

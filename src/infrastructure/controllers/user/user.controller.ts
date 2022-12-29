@@ -86,7 +86,6 @@ export class UserController {
   async updateUser(@Body() updateUserDto: UpdateUserDto) {
     try {
       const newUserEntity = UpdateUserDto.toEntity(updateUserDto);
-      Logger.log(this.updateUserUseCase);
       const userEntity = await this.updateUserUseCase.execute(newUserEntity);
       return new UserPresenter(userEntity);
     } catch (error) {
