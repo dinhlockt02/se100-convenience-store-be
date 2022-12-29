@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/entities/user.entity';
+import { CoreException } from 'src/core/exceptions';
 import { IUserRepository } from 'src/core/repositories/user.repository.interface';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
 import { UserConverter } from './user.converter';
@@ -43,11 +44,18 @@ export class UserRepository implements IUserRepository {
     return UserConverter.toEntity(prismaUsers);
   }
   async deleteUser(id: number): Promise<void> {
-    await this.prisma.user.deleteMany({
-      where: {
-        id,
-      },
-    });
+    try {
+      await this.prisma.user.deleteMany({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      if (error.code === 'P2003') {
+        throw new CoreException.ConflictException('Product has been used');
+      }
+      throw new CoreException.ConflictException('User has been used');
+    }
   }
   async getUserByEmail(email: string): Promise<UserEntity> {
     const prismaUser = await this.prisma.user.findUnique({
