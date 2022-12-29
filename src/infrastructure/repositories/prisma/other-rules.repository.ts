@@ -39,6 +39,15 @@ export class OtherRulesRepository implements IOtherRulesRepository {
           val: val,
         },
       });
+    } else {
+      rule = await this.prisma.otherRule.update({
+        where: {
+          id: id,
+        },
+        data: {
+          val: val,
+        },
+      });
     }
     return {
       id: rule.id,
