@@ -34,6 +34,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     }
     try {
       const { token, user } = await this.loginUsecase.execute(email, password);
+      if (!user || !user.active) {
+        throw new BadRequestException('User not exist');
+      }
       return {
         access_token: token,
         user: new UserPresenter(user),

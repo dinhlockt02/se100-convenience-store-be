@@ -50,6 +50,8 @@ export class CreateUserDto {
   @IsEnum(Role)
   @ApiProperty({ required: true, enum: Role })
   role: Role;
+  @ApiProperty({ type: Boolean })
+  active: boolean;
 
   toEntity(): UserEntity {
     const newUserEntity = new UserEntity();
@@ -64,10 +66,11 @@ export class CreateUserDto {
     newUserEntity.other = this.other;
     newUserEntity.avatar = this.avatar;
     newUserEntity.role = this.role;
+    newUserEntity.active = this.active;
     return newUserEntity;
   }
 
-  static toEntity(createUserDto): UserEntity {
+  static toEntity(createUserDto: CreateUserDto): UserEntity {
     const newUserEntity = new UserEntity();
     newUserEntity.email = createUserDto.email;
     newUserEntity.password = createUserDto.password;
@@ -80,6 +83,7 @@ export class CreateUserDto {
     newUserEntity.other = createUserDto.other;
     newUserEntity.avatar = createUserDto.avatar;
     newUserEntity.role = createUserDto.role;
+    newUserEntity.active = createUserDto.active;
     return newUserEntity;
   }
 }
@@ -119,6 +123,8 @@ export class UpdateUserDto {
   @IsEnum(Role)
   @ApiProperty({ required: true, enum: Role })
   role: Role;
+  @ApiProperty({ type: Boolean })
+  active: boolean;
 
   static toEntity(updateUserDto: UpdateUserDto): UserEntity {
     const newUserEntity = new UserEntity();
@@ -134,6 +140,7 @@ export class UpdateUserDto {
     newUserEntity.avatar = updateUserDto.avatar;
     newUserEntity.password = '';
     newUserEntity.role = updateUserDto.role;
+    newUserEntity.active = updateUserDto.active;
     return newUserEntity;
   }
 }

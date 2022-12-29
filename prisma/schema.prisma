@@ -19,7 +19,7 @@ model User {
   password           String
   ResetPasswordToken ResetPasswordToken[]
   birthday           DateTime             @db.Date()
-  identityNumber     String
+  identityNumber     String               @unique
   gender             Gender
   phoneNumber        String
   address            String
@@ -29,6 +29,7 @@ model User {
   Invoice            Invoice[]
   DeliveryNote       DeliveryNote[]
   updatedAt          DateTime             @updatedAt
+  active             Boolean              @default(true)
 }
 
 enum Gender {

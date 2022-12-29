@@ -28,6 +28,7 @@ export class UserConverter {
     userEntity.role =
       prismaUser.role == PrismaRole.MANAGER ? Role.Manager : Role.Employee;
     userEntity.updatedAt = prismaUser.updatedAt;
+    userEntity.active = prismaUser.active;
     return userEntity;
   }
   static toDatabase(userEntity: UserEntity): User {
@@ -53,6 +54,7 @@ export class UserConverter {
       userEntity.role == Role.Employee
         ? PrismaRole.EMPLOYEE
         : PrismaRole.MANAGER;
+    databaseUser.active = userEntity.active;
     return databaseUser;
   }
 }
