@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { IDeliveryNoteRepositoryLabel } from 'src/core/repositories/delivery-note.repository.interface';
 import { IInvoiceRepositoryLabel } from 'src/core/repositories/invoice.repository.interface';
+import { IOtherRulesRepositoryLabel } from 'src/core/repositories/other-rules.repository.interface';
 import { IProductItemExpireStateRuleRepositoryLabel } from 'src/core/repositories/product-item-expire-state-rule.repository';
 import { IProductItemQuantityStateRuleRepositoryLabel } from 'src/core/repositories/product-item-quantity-state-rule.repository';
 import { IProductItemRepositoryLabel } from 'src/core/repositories/product-item.repository.interface';
@@ -12,6 +13,7 @@ import { IUserRepositoryLabel } from 'src/core/repositories/user.repository.inte
 import { ServicesModule } from '../services/services.module';
 import { DeliveryNoteRepository } from './prisma/delivery-note.repository';
 import { InvoiceRepository } from './prisma/invoice.repository';
+import { OtherRulesRepository } from './prisma/other-rules.repository';
 import { ProductItemExpireStateRuleRepository } from './prisma/product-item-expire-state-rule.repository';
 import { ProductItemQuantityStateRuleRepository } from './prisma/product-item-quantity-state-rule.repository';
 import { ProductItemRepository } from './prisma/product-item.repository';
@@ -64,6 +66,10 @@ import { UserRepository } from './prisma/user.repository';
       provide: IReportRepositoryLabel,
       useClass: ReportRepository,
     },
+    {
+      provide: IOtherRulesRepositoryLabel,
+      useClass: OtherRulesRepository,
+    },
   ],
   exports: [
     {
@@ -105,6 +111,10 @@ import { UserRepository } from './prisma/user.repository';
     {
       provide: IReportRepositoryLabel,
       useClass: ReportRepository,
+    },
+    {
+      provide: IOtherRulesRepositoryLabel,
+      useClass: OtherRulesRepository,
     },
   ],
 })

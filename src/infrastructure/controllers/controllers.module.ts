@@ -11,6 +11,7 @@ import { ProductUsecasesModule } from 'src/usecases/product/product.usecases.mod
 import { ProviderUsecasesModule } from 'src/usecases/provider/provider.usecases.module';
 import { ReportUsecasesModule } from 'src/usecases/report/report.usecases.module';
 import { UserUsecasesModule } from 'src/usecases/user/user.usecases.module';
+import { VATUsecasesModule } from 'src/usecases/vat/vat.usecases.module';
 import { LocalStrategy } from '../common/strategies/local.strategy';
 import { AuthController } from './auth/auth.controller';
 import { DeliveryNoteController } from './delivery-note/delivery-note.controller';
@@ -23,6 +24,7 @@ import { ProductController } from './product/product.controller';
 import { ProviderController } from './provider/provider.controller';
 import { ReportController } from './report/report.controller';
 import { UserController } from './user/user.controller';
+import { VATController } from './vat/vat.controller';
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { UserController } from './user/user.controller';
     InvoiceUsecasesModule,
     ProductItemExpireStateRuleUsecasesModule,
     ReportUsecasesModule,
+    VATUsecasesModule,
   ],
   controllers: [
     UserController,
@@ -50,6 +53,7 @@ import { UserController } from './user/user.controller';
     InvoiceController,
     ProductItemExpireStateRuleController,
     ReportController,
+    VATController,
   ],
   providers: [LocalStrategy],
 })
