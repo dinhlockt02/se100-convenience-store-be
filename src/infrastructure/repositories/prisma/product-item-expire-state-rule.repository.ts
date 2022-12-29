@@ -83,11 +83,11 @@ export class ProductItemExpireStateRuleRepository
 
       productItemExpireStateRules.forEach((rule) => {
         if (rule.val >= remainingDays) {
-        }
-        if (matchRule == null) {
-          matchRule = rule;
-        } else if (matchRule != null && rule.val > matchRule.val) {
-          matchRule = rule;
+          if (matchRule == null) {
+            matchRule = rule;
+          } else if (matchRule != null && rule.val < matchRule.val) {
+            matchRule = rule;
+          }
         }
       });
 
