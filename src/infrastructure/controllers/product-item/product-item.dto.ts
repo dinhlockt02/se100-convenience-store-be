@@ -29,7 +29,7 @@ export class ProductItemDto {
   @IsString()
   @ApiProperty({ required: true })
   description: string;
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   @ApiProperty({ required: true })
   image: string;
 }
@@ -41,7 +41,7 @@ export class UpdateProductItemDto {
   @IsString()
   @ApiProperty({ required: true })
   description: string;
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   @ApiProperty({ required: true })
   image: string;
 }
