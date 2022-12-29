@@ -183,6 +183,9 @@ export class ProviderRepository implements IProviderRepository {
         },
       });
     } catch (error) {
+      if (error.code === 'P2003') {
+        throw new CoreException.ConflictException('Provider has been used');
+      }
       throw new CoreException.DatabaseException(error);
     }
   }

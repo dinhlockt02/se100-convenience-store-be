@@ -129,6 +129,9 @@ export class ProductRepository implements IProductRepository {
         },
       });
     } catch (error) {
+      if (error.code === 'P2003') {
+        throw new CoreException.ConflictException('Product has been used');
+      }
       throw new CoreException.DatabaseException(error);
     }
   }
