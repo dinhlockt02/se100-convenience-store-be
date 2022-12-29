@@ -155,3 +155,8 @@ model ProductItemExpireStateRule {
   val       Int
   color     String
 }
+
+model OtherRule {
+  id  String @id()
+  val Float
+}
