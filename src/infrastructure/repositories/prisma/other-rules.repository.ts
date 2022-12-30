@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { RuleEntity } from 'src/core/entities/rule.entity';
-import { IOtherRulesRepository } from 'src/core/repositories/other-rules.repository.interface';
+import {
+  IOtherRulesRepository,
+  VAT_RULE,
+} from 'src/core/repositories/other-rules.repository.interface';
 import { PrismaService } from 'src/infrastructure/services/prisma.service';
 
 @Injectable()
@@ -14,12 +17,21 @@ export class OtherRulesRepository implements IOtherRulesRepository {
       },
     });
     if (!rule) {
-      rule = await this.prisma.otherRule.create({
-        data: {
-          id: id,
-          val: 0,
-        },
-      });
+      if (id == VAT_RULE) {
+        rule = await this.prisma.otherRule.create({
+          data: {
+            id: id,
+            val: parseInt(process.env.DEFAULT_VAT),
+          },
+        });
+      } else {
+        rule = await this.prisma.otherRule.create({
+          data: {
+            id: id,
+            val: 0,
+          },
+        });
+      }
     }
     return {
       id: rule.id,
