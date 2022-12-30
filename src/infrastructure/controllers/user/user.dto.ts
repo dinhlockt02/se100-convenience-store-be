@@ -150,3 +150,12 @@ export class UpdateUserDto {
     return newUserEntity;
   }
 }
+
+export class ChangePasswordDto {
+  @ApiProperty()
+  @IsInt()
+  id: number;
+  @ApiProperty()
+  @IsString()
+  password: string;
+}
