@@ -44,6 +44,9 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({ required: true })
   other: string;
+  @ValidateIf((_, val) => {
+    return val !== '';
+  })
   @IsUrl({ require_tld: false })
   @ApiProperty({ required: true, example: 'http://example.com/a.jpg' })
   avatar: string;
@@ -117,6 +120,9 @@ export class UpdateUserDto {
   @IsString()
   @ApiProperty({ required: true })
   other: string;
+  @ValidateIf((_, val) => {
+    return val !== '';
+  })
   @IsUrl({ require_tld: false })
   @ApiProperty({ required: true, example: 'https://example.com/a.jpg' })
   avatar: string;
