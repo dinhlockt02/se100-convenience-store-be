@@ -21,6 +21,7 @@ services:
       - app-network
     volumes:
       - ./src:/app/src
+      - ./src/infrastructure/services/send-email.service/reset-email.template.ejs:/app/dist/infrastructure/services/send-email.service/reset-email.template.ejs
     depends_on:
       db:
         condition: service_healthy
