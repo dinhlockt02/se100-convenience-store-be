@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 import { ServicesModule } from 'src/infrastructure/services/services.module';
+import { ChangePasswordUseCase } from './change-password.usecase';
 import { CreateUserUseCase } from './create-user.usecase';
 import { DeleteUserByIdUsecase } from './delete-user-by-id.usecase';
 import { GetUserByIdUsecase } from './get-users-by-id.usecase';
@@ -15,6 +16,7 @@ import { UpdateUserUseCase } from './update-user.usecase';
     GetUserByIdUsecase,
     GetUsersUsecase,
     UpdateUserUseCase,
+    ChangePasswordUseCase,
   ],
   exports: [
     CreateUserUseCase,
@@ -22,6 +24,7 @@ import { UpdateUserUseCase } from './update-user.usecase';
     GetUserByIdUsecase,
     GetUsersUsecase,
     UpdateUserUseCase,
+    ChangePasswordUseCase,
   ],
 })
 export class UserUsecasesModule {}
