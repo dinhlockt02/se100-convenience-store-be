@@ -3,7 +3,11 @@ import { UserEntity } from '../entities/user.entity';
 
 export interface ISendEmailService {
   sendEmail(userEntity: UserEntity, options: SendEmailOptions);
-  sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity);
+  sendResetPasswordEmail(
+    resetPasswordTokenEntity: ResetPasswordTokenEntity,
+    email: string,
+    name: string,
+  );
 }
 
 export class SendEmailOptions {
