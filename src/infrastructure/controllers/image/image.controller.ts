@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 
@@ -34,7 +35,7 @@ export class ImageController {
         },
         filename: function (req, file, cb) {
           const uniqueSuffix = Date.now();
-          cb(null, uniqueSuffix + '_' + file.originalname);
+          cb(null, uniqueSuffix + '_' + randomUUID());
         },
       }),
     }),
