@@ -25,7 +25,7 @@ export class SendEmailService implements ISendEmailService {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: email, // Change to your recipient
-      from: 'dinhlockt02@gmail.com', // Change to your verified sender
+      from: '___', // Change to your verified sender
       subject: 'Reset password',
       html: await this.loadResetPasswordTemplate(
         `${resetPasswordUrl}?token=${resetPasswordTokenEntity.id}`,
